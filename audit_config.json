@@ -1,0 +1,21 @@
+{
+  "projects": [
+    "prod-network-hub",
+    "prod-app-tier-1",
+    "prod-data-tier"
+  ],
+  "regions": [
+    "asia-south1",
+    "us-central1"
+  ],
+  "audit_domains": [
+    "networking",
+    "iam",
+    "firewall"
+  ],
+  "output_dir": "reports",
+  "notification": {
+    "slack_webhook": "${SLACK_WEBHOOK_URL}",
+    "notify_on": ["critical", "high"]
+  }
+}
