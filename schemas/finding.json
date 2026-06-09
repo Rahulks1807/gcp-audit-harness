@@ -1,0 +1,47 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "AuditFinding",
+  "type": "object",
+  "required": ["id", "domain", "severity", "resource", "project", "detail", "remediation"],
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "Unique finding ID e.g. FW-003, IAM-007"
+    },
+    "domain": {
+      "type": "string",
+      "enum": ["networking", "iam", "firewall"]
+    },
+    "severity": {
+      "type": "string",
+      "enum": ["critical", "high", "medium", "low", "info"]
+    },
+    "resource": {
+      "type": "string",
+      "description": "Full GCP resource URI"
+    },
+    "project": {
+      "type": "string"
+    },
+    "region": {
+      "type": "string"
+    },
+    "detail": {
+      "type": "string",
+      "description": "Human-readable description of the finding"
+    },
+    "remediation": {
+      "type": "string",
+      "description": "Specific remediation steps"
+    },
+    "raw_evidence": {
+      "type": "object",
+      "description": "Raw gcloud/API output supporting the finding"
+    },
+    "cross_domain_tags": {
+      "type": "array",
+      "items": {"type": "string"},
+      "description": "Tags enabling cross-domain correlation e.g. ['service-account:app-sa@project.iam']"
+    }
+  }
+}
