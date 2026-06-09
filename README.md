@@ -1,7 +1,3 @@
-# gcp-audit-harness
-A practical guide to parallel subagent orchestration, Gemini 3.5 reasoning, and cross-domain risk correlation for cloud architects
-
-##############
 # GCP Audit Harness
 
 A multi-agent GCP infrastructure auditor built with Google Antigravity SDK. Spawns parallel domain subagents to simultaneously audit networking, IAM, and firewall posture across multiple GCP projects, then uses Gemini 3.5 reasoning to synthesise cross-domain risk chains into a prioritised remediation report.
