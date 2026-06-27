@@ -1,6 +1,6 @@
 # GCP Audit Harness
 
-A multi-agent GCP infrastructure auditor built with Google Antigravity SDK. Spawns parallel domain subagents to simultaneously audit networking, IAM, and firewall posture across multiple GCP projects, then uses Gemini 3.5 reasoning to synthesise cross-domain risk chains into a prioritised remediation report.
+A multi-agent GCP infrastructure auditor built with Google Antigravity SDK. Spawns six parallel domain subagents to simultaneously audit networking, IAM, firewall, GKE, Cloud SQL, and storage posture across multiple GCP projects, then uses Gemini 3.5 reasoning to synthesise cross-domain risk chains into a prioritised remediation report — viewable in a companion React dashboard.
 
 Built as part of the [Agentic Architect Sprint 2026](https://goo.gle/agentic-architect-sprint) using Google Antigravity 2.0 and Antigravity SDK.
 
@@ -8,10 +8,11 @@ Built as part of the [Agentic Architect Sprint 2026](https://goo.gle/agentic-arc
 
 ## What It Does
 
-- **Parallel auditing** — three domain agents (networking, IAM, firewall) run simultaneously, not sequentially
-- **Cross-domain risk correlation** — Gemini 3.5 identifies risk chains that span domains (e.g. a permissive firewall rule + an unguarded service account = critical chain)
+- **Parallel auditing** — six domain agents run simultaneously, not sequentially
+- **Cross-domain risk correlation** — Gemini 3.5 identifies risk chains that span domains (e.g. a permissive firewall rule + an unguarded service account = critical chain, or a GKE workload identity binding + an exposed Cloud SQL instance = high chain)
 - **Structured findings** — every finding follows a shared schema with `cross_domain_tags` enabling correlation
 - **Markdown + JSON reports** — saves both a machine-readable JSON report and a human-readable markdown summary
+- **Dashboard** — a standalone React app (in `dashboard/`) that reads the JSON report and renders metrics, charts, and expandable risk chain cards
 
 ### Audit Domains
 
@@ -20,6 +21,9 @@ Built as part of the [Agentic Architect Sprint 2026](https://goo.gle/agentic-arc
 | Networking | NCC hub/spoke health, BGP session state, CIDR overlaps, stale spokes |
 | IAM | Overprivileged bindings, service account key age, PAM entitlement gaps |
 | Firewall | Permissive ingress rules, missing deny-all defaults, shadow rules |
+| GKE | Workload identity scope, Binary Authorization, node auto-upgrade |
+| Cloud SQL | Public IP exposure, authorized networks, backup retention |
+| Storage | Public bucket access, legacy ACLs, uniform bucket-level access |
 
 ---
 
@@ -75,7 +79,11 @@ gcp-audit-harness/
 │   ├── networking_audit.md    # NCC, VPC, BGP audit skill
 │   ├── iam_audit.md           # IAM, PAM, service account audit skill
 │   ├── firewall_audit.md      # Firewall rules audit skill
+│   ├── gke_audit.md           # GKE workload security audit skill
+│   ├── cloud_sql_audit.md     # Cloud SQL exposure audit skill
+│   ├── storage_audit.md       # Cloud Storage posture audit skill
 │   └── risk_synthesis.md      # Cross-domain Gemini 3.5 synthesis skill
+├── dashboard/                 # Standalone React dashboard (see dashboard/README.md)
 └── reports/                   # Auto-created, audit outputs written here
 ```
 
@@ -119,7 +127,10 @@ Edit `audit_config.json` to set your target projects, regions, and audit domains
   "audit_domains": [
     "networking",
     "iam",
-    "firewall"
+    "firewall",
+    "gke",
+    "cloud_sql",
+    "storage"
   ],
   "output_dir": "reports",
   "notification": {
@@ -153,21 +164,27 @@ python orchestrator.py --config my_custom_config.json
 
 ```
 [2026-06-09T02:00:01] Starting audit for 3 projects
-Domains: ['networking', 'iam', 'firewall']
+Domains: ['networking', 'iam', 'firewall', 'gke', 'cloud_sql', 'storage']
 Regions: ['asia-south1', 'us-central1']
 ------------------------------------------------------------
 [Subagent: networking-auditor] Starting...
 [Subagent: iam-auditor] Starting...
 [Subagent: firewall-auditor] Starting...
+[Subagent: gke-auditor] Starting...
+[Subagent: cloud_sql-auditor] Starting...
+[Subagent: storage-auditor] Starting...
 [Subagent: networking-auditor] Complete (47s) — 3 findings
-[Subagent: iam-auditor] Complete (51s) — 5 findings
 [Subagent: firewall-auditor] Complete (38s) — 4 findings
+[Subagent: storage-auditor] Complete (41s) — 2 findings
+[Subagent: iam-auditor] Complete (51s) — 5 findings
+[Subagent: cloud_sql-auditor] Complete (44s) — 3 findings
+[Subagent: gke-auditor] Complete (58s) — 2 findings
 [Subagent: risk-synthesizer] Starting cross-domain analysis...
-[Subagent: risk-synthesizer] Complete (23s) — 2 chains identified
+[Subagent: risk-synthesizer] Complete (29s) — 3 chains identified
 
-[2026-06-09T02:01:40] Audit complete in 99.2s
-Report saved: reports/audit_report_20260609_020140.json
-Summary saved: reports/audit_report_20260609_020140.md
+[2026-06-09T02:02:47] Audit complete in 167.4s
+Report saved: reports/audit_report_20260609_020247.json
+Summary saved: reports/audit_report_20260609_020247.md
 ```
 
 ---
@@ -201,11 +218,25 @@ Reports are saved to the `reports/` directory in two formats:
 
 ## Performance
 
-| Approach | 3 domains × 3 projects | Finding correlation |
+| Approach | 6 domains × 3 projects | Finding correlation |
 |----------|------------------------|---------------------|
-| Sequential shell scripts | ~18 minutes | None |
-| This harness (parallel subagents) | ~99 seconds | Automatic (Gemini 3.5) |
-| Improvement | **10.9× faster** | **Cross-domain chains** |
+| Sequential shell scripts | ~31 minutes | None |
+| This harness (parallel subagents) | ~167 seconds | Automatic (Gemini 3.5) |
+| Improvement | **11.1× faster** | **Cross-domain chains** |
+
+---
+
+## Viewing Results: The Dashboard
+
+The `dashboard/` directory contains a standalone React app that reads the JSON report and renders it as metrics, charts, and expandable risk chain cards — see `dashboard/README.md` for setup. Quick start:
+
+```bash
+cd dashboard
+npm install
+npm run dev
+```
+
+Open `http://localhost:5173`, click **Load report**, and select your `reports/audit_report_TIMESTAMP.json` file.
 
 ---
 
@@ -236,7 +267,7 @@ Edit the relevant skill file in `skills/` and add the additional `gcloud` comman
 
 ## Related Blog Post
 
-Full walkthrough and architecture explanation: [Building a Multi-Agent GCP Infrastructure Auditor with Google Antigravity SDK](https://medium.com/@your-handle/blog-link)
+Full walkthrough and architecture explanation: [Building a Multi-Agent GCP Infrastructure Auditor with Google Antigravity SDK](https://medium.com/p/5792c3034fce)
 
 ---
 
