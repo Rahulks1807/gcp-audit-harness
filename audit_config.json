@@ -11,7 +11,10 @@
   "audit_domains": [
     "networking",
     "iam",
-    "firewall"
+    "firewall",
+    "gke",
+    "cloud_sql",
+    "storage"
   ],
   "output_dir": "reports",
   "notification": {
