@@ -1,111 +1,175 @@
+"""Main harness entry point.
+
+Runs the six domain auditors in parallel (real asyncio tasks, each shelling
+out to the `gcloud` CLI — see `gcp_audit/domains/`), then synthesises their
+findings into cross-domain risk chains (`gcp_audit/synthesis.py`), and
+writes both a JSON and a Markdown report to `output_dir`.
+
+Earlier versions of this file depended on a fictional `antigravity.sdk`
+package; this is a self-contained, runnable replacement with the same CLI
+and report shape (so the dashboard in `dashboard/` still works unmodified).
+"""
+
 import argparse
 import asyncio
 import json
 import os
+import re
+import urllib.request
 from datetime import datetime
 from pathlib import Path
 
-from antigravity.sdk import AgentHarness, SubAgent, TaskGraph, TokenBudgetMonitor
+from gcp_audit.categories import CATEGORY_ORDER, DOMAIN_CATEGORIES, DOMAIN_LABELS
+from gcp_audit.domains import DOMAIN_MODULES
+from gcp_audit.report import write_markdown_report
+from gcp_audit.synthesis import synthesize
 
-# Initialise harness with Gemini 3.5 reasoning model
-harness = AgentHarness(
-    name="gcp-infrastructure-auditor",
-    model="gemini-3.5-reasoning",
-    max_parallel_subagents=6,
-    result_store="shared",  # Domain agents write to shared store
-)
+try:
+    from dotenv import load_dotenv
 
-# Token budget monitor — prevent runaway costs on large environments
-budget = TokenBudgetMonitor(
-    max_tokens_per_turn=8000,
-    max_cumulative_tokens=50000,
-    on_exceed="warn"  # Use "kill" in production for hard stops
-)
+    load_dotenv()  # picks up GEMINI_API_KEY / SLACK_WEBHOOK_URL from a local .env, if present
+except ImportError:
+    pass
 
-# Default audit domains. All six run in parallel; cross-domain chains
-# (e.g. GKE workload identity -> Cloud SQL exposure) are only detected
-# when both relevant domains are included in the same run.
-DEFAULT_DOMAINS = ["networking", "iam", "firewall", "gke", "cloud_sql", "storage"]
+DEFAULT_DOMAINS = list(DOMAIN_MODULES)
+
+_ENV_VAR_PATTERN = re.compile(r"\$\{([^}]+)\}")
 
 
-@harness.orchestrate
-def build_audit_graph(scope: dict) -> TaskGraph:
-    """
-    Builds the task dependency graph for the audit.
-    Domain agents run in parallel; synthesis waits for all domains.
-    """
-    graph = TaskGraph()
+def _resolve_env_vars(value):
+    """Recursively substitute ${VAR_NAME} placeholders in a config value
+    with the matching environment variable (e.g. audit_config.json's
+    "slack_webhook": "${SLACK_WEBHOOK_URL}")."""
+    if isinstance(value, str):
+        return _ENV_VAR_PATTERN.sub(lambda m: os.environ.get(m.group(1), ""), value)
+    if isinstance(value, dict):
+        return {k: _resolve_env_vars(v) for k, v in value.items()}
+    if isinstance(value, list):
+        return [_resolve_env_vars(v) for v in value]
+    return value
 
-    audit_domains = scope.get("audit_domains", DEFAULT_DOMAINS)
 
-    for domain in audit_domains:
-        graph.add_task(
-            task_id=f"audit_{domain}",
-            agent=SubAgent(
-                name=f"{domain}-auditor",
-                skill=f"skills/{domain}_audit.md",
-                context={
-                    "projects": scope["projects"],
-                    "regions": scope.get("regions", ["us-central1"]),
-                    "schema_path": "schemas/finding.json"
-                },
-                timeout_seconds=300,
-                token_budget=budget,
-            ),
-            # Domain agents run in parallel — no dependencies between them
-        )
+async def run_domain_audit(domain: str, projects: list[str], regions: list[str]) -> tuple[str, dict]:
+    module = DOMAIN_MODULES[domain]
+    print(f"[Subagent: {domain}-auditor] Starting...", flush=True)
+    start = datetime.now()
+    try:
+        result = await module.audit(projects, regions)
+    except Exception as exc:  # noqa: BLE001 - one domain failing shouldn't kill the run
+        print(f"[Subagent: {domain}-auditor] FAILED: {exc}", flush=True)
+        result = {"domain": domain, "projects_audited": projects, "severity_counts": {}, "findings": []}
+    elapsed = (datetime.now() - start).total_seconds()
+    print(f"[Subagent: {domain}-auditor] Complete ({elapsed:.0f}s) — {len(result['findings'])} findings", flush=True)
+    return domain, result
 
-    # Synthesis waits for ALL domain agents to complete
-    graph.add_task(
-        task_id="synthesize_findings",
-        agent=SubAgent(
-            name="risk-synthesizer",
-            skill="skills/risk_synthesis.md",
-            context_from_tasks=[f"audit_{d}" for d in audit_domains],
-            timeout_seconds=120,
-        ),
-        depends_on=[f"audit_{d}" for d in audit_domains],
+
+def notify_slack(output: dict, notification: dict) -> None:
+    """Best-effort Slack notification, gated on notify_on severities present
+    in this run's findings/chains. audit_config.json declares this but the
+    original harness never actually sent anything."""
+    webhook = notification.get("slack_webhook")
+    notify_on = set(notification.get("notify_on", []))
+    if not webhook or not notify_on:
+        return
+
+    severities_present = {f.get("severity") for f in output.get("findings", [])}
+    severities_present |= {c.get("severity") for c in output.get("risk_chains", [])}
+    if not severities_present & notify_on:
+        return
+
+    metrics = output.get("metrics", {})
+    text = (
+        f"*GCP audit complete* — {metrics.get('total_findings', 0)} findings, "
+        f"{metrics.get('risk_chains_identified', 0)} risk chain(s) "
+        f"({metrics.get('critical_count', 0)} critical, {metrics.get('high_count', 0)} high).\n"
+        f"{output.get('executive_summary', '')}"
     )
-
-    return graph
+    try:
+        request = urllib.request.Request(
+            webhook,
+            data=json.dumps({"text": text}).encode(),
+            headers={"Content-Type": "application/json"},
+        )
+        urllib.request.urlopen(request, timeout=10)
+    except Exception as exc:  # noqa: BLE001 - notification failures must not fail the run
+        print(f"[notify] Slack notification failed: {exc}", flush=True)
 
 
 async def run_audit(config_path: str = "audit_config.json") -> dict:
     """Main audit runner."""
     with open(config_path) as f:
-        scope = json.load(f)
+        scope = _resolve_env_vars(json.load(f))
 
     audit_domains = scope.get("audit_domains", DEFAULT_DOMAINS)
+    unknown = [d for d in audit_domains if d not in DOMAIN_MODULES]
+    if unknown:
+        raise ValueError(
+            f"Unknown audit domain(s) {unknown} in {config_path}. "
+            f"Known domains: {list(DOMAIN_MODULES)}"
+        )
 
-    print(f"[{datetime.now().isoformat()}] Starting audit for {len(scope['projects'])} projects")
+    projects = scope["projects"]
+    regions = scope.get("regions", ["us-central1"])
+
+    print(f"[{datetime.now().isoformat()}] Starting audit for {len(projects)} projects")
     print(f"Domains: {audit_domains}")
-    print(f"Regions: {scope.get('regions', ['us-central1'])}")
+    print(f"Regions: {regions}")
     print("-" * 60)
 
     start_time = datetime.now()
-    result = await harness.run(scope)
+
+    domain_results = dict(
+        await asyncio.gather(*(run_domain_audit(d, projects, regions) for d in audit_domains))
+    )
+
+    print("[Subagent: risk-synthesizer] Starting cross-domain analysis...", flush=True)
+    synth_start = datetime.now()
+    synthesis_output = await synthesize(domain_results)
+    synth_elapsed = (datetime.now() - synth_start).total_seconds()
+    print(
+        f"[Subagent: risk-synthesizer] Complete ({synth_elapsed:.0f}s) — "
+        f"{len(synthesis_output['risk_chains'])} chains identified",
+        flush=True,
+    )
+
     elapsed = (datetime.now() - start_time).total_seconds()
 
-    # Save the full report
+    # Dashboard expects a single flat `findings` array across all domains,
+    # in addition to the per-domain breakdown under `domain_results`.
+    all_findings = [f for result in domain_results.values() for f in result.get("findings", [])]
+
+    output = {
+        "executive_summary": synthesis_output["executive_summary"],
+        "findings": all_findings,
+        "risk_chains": synthesis_output["risk_chains"],
+        "standalone_findings": synthesis_output["standalone_findings"],
+        "remediation_plan": synthesis_output["remediation_plan"],
+        "metrics": synthesis_output["metrics"],
+        "domain_results": domain_results,
+        # Single source of truth for how the dashboard should group/label
+        # domains, so it doesn't need to hardcode 15+ domain names itself.
+        "categories": {
+            "order": CATEGORY_ORDER,
+            "domain_category": {d: DOMAIN_CATEGORIES.get(d, "Other") for d in audit_domains},
+            "domain_labels": {d: DOMAIN_LABELS.get(d, d) for d in audit_domains},
+        },
+    }
+
     report_dir = Path(scope.get("output_dir", "reports"))
     report_dir.mkdir(exist_ok=True)
     report_date = datetime.now().strftime("%Y%m%d_%H%M%S")
     report_path = report_dir / f"audit_report_{report_date}.json"
 
-    # Augment the output with run metadata — this is what the dashboard
-    # reads for its header (projects audited, duration, domains covered)
-    output = result.output
     output["metadata"] = {
-        "projects_audited": scope["projects"],
+        "projects_audited": projects,
         "audit_domains": audit_domains,
         "duration_seconds": round(elapsed, 1),
-        "timestamp": datetime.now().isoformat()
+        "timestamp": datetime.now().isoformat(),
     }
 
     with open(report_path, "w") as f:
         json.dump(output, f, indent=2)
 
-    # Also save a human-readable markdown summary
     md_path = report_dir / f"audit_report_{report_date}.md"
     write_markdown_report(output, md_path, elapsed)
 
@@ -115,70 +179,9 @@ async def run_audit(config_path: str = "audit_config.json") -> dict:
     print("\n--- Executive Summary ---")
     print(output.get("executive_summary", "No summary generated"))
 
+    notify_slack(output, scope.get("notification", {}))
+
     return output
-
-
-def write_markdown_report(output: dict, path: Path, elapsed: float):
-    """Write a human-readable markdown report."""
-    lines = [
-        f"# GCP Infrastructure Audit Report",
-        f"*Generated: {datetime.now().isoformat()} | Duration: {elapsed:.1f}s*",
-        "",
-        "## Executive Summary",
-        "",
-        output.get("executive_summary", ""),
-        "",
-        "## Metrics",
-        "",
-    ]
-
-    metrics = output.get("metrics", {})
-    lines += [
-        f"| Metric | Value |",
-        f"|--------|-------|",
-        f"| Total Findings | {metrics.get('total_findings', 0)} |",
-        f"| Risk Chains Identified | {metrics.get('risk_chains_identified', 0)} |",
-        f"| Critical | {metrics.get('critical_count', 0)} |",
-        f"| High | {metrics.get('high_count', 0)} |",
-        "",
-        "## Risk Chains",
-        "",
-    ]
-
-    for chain in output.get("risk_chains", []):
-        severity_emoji = {"critical": "🔴", "high": "🟠", "medium": "🟡"}.get(
-            chain["severity"], "⚪"
-        )
-        lines += [
-            f"### {severity_emoji} {chain['chain_id']} — {chain['severity'].upper()}",
-            "",
-            f"**Findings involved:** {', '.join(chain['finding_ids'])}",
-            "",
-            chain["description"],
-            "",
-            f"**Blast radius:** {chain['blast_radius']}",
-            "",
-            "**Remediation steps:**",
-        ]
-        for step in chain.get("remediation_steps", []):
-            lines.append(f"- {step}")
-        lines.append("")
-
-    lines += [
-        "## Prioritised Remediation Plan",
-        "",
-        "| Priority | Finding/Chain | Severity | Effort | Impact |",
-        "|----------|--------------|----------|--------|--------|",
-    ]
-
-    for i, item in enumerate(output.get("remediation_plan", []), 1):
-        lines.append(
-            f"| {i} | {item.get('id', '')} | {item.get('severity', '')} | "
-            f"{item.get('effort', '')} | {item.get('impact', '')} |"
-        )
-
-    with open(path, "w") as f:
-        f.write("\n".join(lines))
 
 
 def parse_args():
@@ -186,7 +189,7 @@ def parse_args():
     parser.add_argument(
         "--config",
         default="audit_config.json",
-        help="Path to the audit configuration JSON file (default: audit_config.json)"
+        help="Path to the audit configuration JSON file (default: audit_config.json)",
     )
     return parser.parse_args()
 

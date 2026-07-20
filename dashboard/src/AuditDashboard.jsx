@@ -1,12 +1,18 @@
 import React, { useState, useMemo } from 'react';
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, Legend, PieChart, Pie, Cell } from 'recharts';
-import { ChevronDown, ChevronUp, AlertTriangle, Link2, Clock, FolderTree, Upload } from 'lucide-react';
+import { ChevronDown, ChevronUp, AlertTriangle, Link2, Clock, FolderTree, Upload, Search } from 'lucide-react';
 
 // ---------------------------------------------------------------------------
 // Sample audit report shape. Replace this with the JSON produced by
 // orchestrator.py (reports/audit_report_TIMESTAMP.json) — either paste it in
 // via the "Load report" button, or wire this component up to fetch the file
 // directly from your reports/ directory.
+//
+// Real reports also include a `categories` block (order, domain_category,
+// domain_labels) generated from gcp_audit/categories.py — this is the single
+// source of truth the dashboard uses to group/label domains. The fallback
+// constants below (DEFAULT_CATEGORY_ORDER etc.) exist only so this sample
+// data and older reports without that block still render correctly.
 // ---------------------------------------------------------------------------
 const SAMPLE_REPORT = {
   metadata: {
@@ -78,13 +84,48 @@ const SAMPLE_REPORT = {
   ]
 };
 
-const DOMAIN_LABELS = {
+const DEFAULT_CATEGORY_ORDER = [
+  "Networking",
+  "Identity & Governance",
+  "Compute & Containers",
+  "Data, Storage & Messaging",
+  "Encryption & Secrets",
+];
+
+const DEFAULT_DOMAIN_CATEGORY = {
   networking: "Networking",
-  iam: "IAM",
+  firewall: "Networking",
+  load_balancing: "Networking",
+  dns: "Networking",
+  iam: "Identity & Governance",
+  org_policy: "Identity & Governance",
+  compute: "Compute & Containers",
+  gke: "Compute & Containers",
+  serverless: "Compute & Containers",
+  artifact_registry: "Compute & Containers",
+  cloud_sql: "Data, Storage & Messaging",
+  storage: "Data, Storage & Messaging",
+  bigquery: "Data, Storage & Messaging",
+  pubsub: "Data, Storage & Messaging",
+  kms_secrets: "Encryption & Secrets",
+};
+
+const DEFAULT_DOMAIN_LABELS = {
+  networking: "Networking",
   firewall: "Firewall",
+  load_balancing: "Load Balancing",
+  dns: "Cloud DNS",
+  iam: "IAM",
+  org_policy: "Org Policy & Logging",
+  compute: "Compute Engine",
   gke: "GKE",
+  serverless: "Cloud Run / Functions",
+  artifact_registry: "Artifact Registry",
   cloud_sql: "Cloud SQL",
-  storage: "Storage"
+  storage: "Storage",
+  bigquery: "BigQuery",
+  pubsub: "Pub/Sub",
+  kms_secrets: "KMS & Secret Manager",
 };
 
 const SEVERITY_ORDER = ["critical", "high", "medium", "low", "info"];
@@ -104,6 +145,37 @@ const SEVERITY_BG = {
   low: "bg-gray-50 text-gray-700 border-gray-200",
   info: "bg-gray-50 text-gray-600 border-gray-200"
 };
+
+function useDomainMeta(report) {
+  return useMemo(() => {
+    const categories = report.categories;
+    const domainLabels = { ...DEFAULT_DOMAIN_LABELS, ...(categories?.domain_labels || {}) };
+    const domainCategory = { ...DEFAULT_DOMAIN_CATEGORY, ...(categories?.domain_category || {}) };
+    const categoryOrder = categories?.order?.length ? categories.order : DEFAULT_CATEGORY_ORDER;
+
+    const domainsPresent = Array.from(new Set((report.findings || []).map((f) => f.domain)));
+    for (const domain of domainsPresent) {
+      if (!domainLabels[domain]) domainLabels[domain] = domain;
+      if (!domainCategory[domain]) domainCategory[domain] = "Other";
+    }
+    const fullCategoryOrder = categoryOrder.includes("Other") || !domainsPresent.some((d) => domainCategory[d] === "Other")
+      ? categoryOrder
+      : [...categoryOrder, "Other"];
+
+    return { domainLabels, domainCategory, categoryOrder: fullCategoryOrder };
+  }, [report]);
+}
+
+function severityCounts(findings) {
+  const counts = { critical: 0, high: 0, medium: 0, low: 0, info: 0 };
+  findings.forEach((f) => { counts[f.severity] = (counts[f.severity] || 0) + 1; });
+  return counts;
+}
+
+function severitySummaryText(counts) {
+  const parts = SEVERITY_ORDER.filter((s) => counts[s]).map((s) => `${counts[s]} ${s}`);
+  return parts.length ? parts.join(", ") : "no findings";
+}
 
 function SeverityBadge({ severity }) {
   return (
@@ -125,26 +197,26 @@ function MetricCard({ label, value, icon: Icon }) {
   );
 }
 
-function DomainSeverityChart({ findings }) {
+function CategorySeverityChart({ findings, domainCategory, categoryOrder }) {
   const data = useMemo(() => {
-    const domains = Object.keys(DOMAIN_LABELS);
-    return domains.map((domain) => {
-      const row = { domain: DOMAIN_LABELS[domain] };
+    return categoryOrder.map((category) => {
+      const row = { category };
+      const inCategory = findings.filter((f) => (domainCategory[f.domain] || "Other") === category);
       SEVERITY_ORDER.forEach((sev) => {
-        row[sev] = findings.filter((f) => f.domain === domain && f.severity === sev).length;
+        row[sev] = inCategory.filter((f) => f.severity === sev).length;
       });
       return row;
     });
-  }, [findings]);
+  }, [findings, domainCategory, categoryOrder]);
 
   return (
-    <ResponsiveContainer width="100%" height={260}>
-      <BarChart data={data} margin={{ top: 8, right: 8, left: -16, bottom: 0 }}>
-        <XAxis dataKey="domain" tick={{ fontSize: 12, fill: "#5F5E5A" }} axisLine={{ stroke: "#E5E3DA" }} tickLine={false} />
-        <YAxis allowDecimals={false} tick={{ fontSize: 12, fill: "#5F5E5A" }} axisLine={false} tickLine={false} />
+    <ResponsiveContainer width="100%" height={280}>
+      <BarChart data={data} layout="vertical" margin={{ top: 8, right: 16, left: 8, bottom: 0 }}>
+        <XAxis type="number" allowDecimals={false} tick={{ fontSize: 12, fill: "#5F5E5A" }} axisLine={false} tickLine={false} />
+        <YAxis type="category" dataKey="category" width={150} tick={{ fontSize: 11, fill: "#5F5E5A" }} axisLine={{ stroke: "#E5E3DA" }} tickLine={false} />
         <Tooltip />
         {SEVERITY_ORDER.map((sev) => (
-          <Bar key={sev} dataKey={sev} stackId="a" fill={SEVERITY_COLORS[sev]} name={sev} radius={[2, 2, 0, 0]} />
+          <Bar key={sev} dataKey={sev} stackId="a" fill={SEVERITY_COLORS[sev]} name={sev} radius={[0, 2, 2, 0]} />
         ))}
       </BarChart>
     </ResponsiveContainer>
@@ -162,7 +234,7 @@ function SeverityDonut({ findings }) {
   );
 
   return (
-    <ResponsiveContainer width="100%" height={260}>
+    <ResponsiveContainer width="100%" height={280}>
       <PieChart>
         <Pie data={data} dataKey="value" nameKey="name" innerRadius={55} outerRadius={85} paddingAngle={2}>
           {data.map((entry) => (
@@ -239,31 +311,135 @@ function RiskChainCard({ chain, findingsById }) {
   );
 }
 
-function FindingsTable({ findings }) {
+function MiniFindingsTable({ findings }) {
+  if (!findings.length) {
+    return <p className="text-xs text-gray-400 px-3 py-2">No findings.</p>;
+  }
+  const sorted = [...findings].sort((a, b) => SEVERITY_ORDER.indexOf(a.severity) - SEVERITY_ORDER.indexOf(b.severity));
+  return (
+    <table className="w-full text-xs">
+      <tbody>
+        {sorted.map((f) => (
+          <tr key={f.id} className="border-t border-gray-100 first:border-t-0">
+            <td className="px-3 py-1.5 font-mono text-gray-600 whitespace-nowrap">{f.id}</td>
+            <td className="px-3 py-1.5"><SeverityBadge severity={f.severity} /></td>
+            <td className="px-3 py-1.5 font-mono text-gray-500 whitespace-nowrap max-w-[140px] truncate" title={f.resource}>{f.resource}</td>
+            <td className="px-3 py-1.5 text-gray-600">{f.detail}</td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  );
+}
+
+function DomainGroup({ domain, label, findings }) {
+  const [open, setOpen] = useState(false);
+  const counts = severityCounts(findings);
+
+  return (
+    <div className="border-t border-gray-100">
+      <button
+        onClick={() => setOpen(!open)}
+        className="w-full flex items-center gap-2 px-3 py-2 text-left hover:bg-gray-50/70 transition"
+      >
+        <span className="text-sm text-gray-800">{label}</span>
+        <span className="text-xs text-gray-400">{findings.length} finding{findings.length === 1 ? "" : "s"}</span>
+        <span className="text-xs text-gray-400">({severitySummaryText(counts)})</span>
+        <span className="ml-auto text-gray-400">
+          {open ? <ChevronUp className="w-3.5 h-3.5" /> : <ChevronDown className="w-3.5 h-3.5" />}
+        </span>
+      </button>
+      {open && <MiniFindingsTable findings={findings} />}
+    </div>
+  );
+}
+
+function CategorySection({ category, domains, domainLabels, findingsByDomain }) {
+  const allFindings = domains.flatMap((d) => findingsByDomain[d] || []);
+  const counts = severityCounts(allFindings);
+  const [open, setOpen] = useState(counts.critical > 0 || counts.high > 0);
+
+  return (
+    <div className="border border-gray-200 rounded-lg overflow-hidden">
+      <button
+        onClick={() => setOpen(!open)}
+        className="w-full flex items-center gap-3 px-4 py-3 text-left hover:bg-gray-50 transition"
+      >
+        <span className="text-sm font-medium text-gray-900">{category}</span>
+        <span className="text-xs text-gray-400">{allFindings.length} finding{allFindings.length === 1 ? "" : "s"}</span>
+        <div className="flex gap-1.5 ml-1">
+          {SEVERITY_ORDER.filter((s) => counts[s]).map((s) => (
+            <span key={s} className={`text-xs px-1.5 rounded ${SEVERITY_BG[s]}`}>{counts[s]}</span>
+          ))}
+        </div>
+        <span className="ml-auto text-gray-400">
+          {open ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
+        </span>
+      </button>
+      {open && (
+        <div className="bg-gray-50/40">
+          {domains.map((domain) => (
+            <DomainGroup
+              key={domain}
+              domain={domain}
+              label={domainLabels[domain] || domain}
+              findings={findingsByDomain[domain] || []}
+            />
+          ))}
+        </div>
+      )}
+    </div>
+  );
+}
+
+function FindingsTable({ findings, domainLabels }) {
   const [domainFilter, setDomainFilter] = useState("all");
   const [severityFilter, setSeverityFilter] = useState("all");
+  const [search, setSearch] = useState("");
+  const [visibleCount, setVisibleCount] = useState(25);
 
-  const filtered = findings
-    .filter((f) => domainFilter === "all" || f.domain === domainFilter)
-    .filter((f) => severityFilter === "all" || f.severity === severityFilter)
-    .sort((a, b) => SEVERITY_ORDER.indexOf(a.severity) - SEVERITY_ORDER.indexOf(b.severity));
+  const domainsPresent = useMemo(
+    () => Array.from(new Set(findings.map((f) => f.domain))).sort((a, b) => (domainLabels[a] || a).localeCompare(domainLabels[b] || b)),
+    [findings, domainLabels]
+  );
+
+  const filtered = useMemo(() => {
+    const q = search.trim().toLowerCase();
+    return findings
+      .filter((f) => domainFilter === "all" || f.domain === domainFilter)
+      .filter((f) => severityFilter === "all" || f.severity === severityFilter)
+      .filter((f) => !q || `${f.id} ${f.resource} ${f.detail}`.toLowerCase().includes(q))
+      .sort((a, b) => SEVERITY_ORDER.indexOf(a.severity) - SEVERITY_ORDER.indexOf(b.severity));
+  }, [findings, domainFilter, severityFilter, search]);
+
+  const visible = filtered.slice(0, visibleCount);
 
   return (
     <div>
-      <div className="flex flex-wrap gap-2 mb-3">
+      <div className="flex flex-wrap gap-2 mb-3 items-center">
+        <div className="relative">
+          <Search className="w-3.5 h-3.5 text-gray-400 absolute left-2.5 top-2.5" />
+          <input
+            type="text"
+            value={search}
+            onChange={(e) => { setSearch(e.target.value); setVisibleCount(25); }}
+            placeholder="Search ID, resource, detail..."
+            className="text-sm border border-gray-200 rounded-md pl-8 pr-2 py-1.5 bg-white w-56"
+          />
+        </div>
         <select
           value={domainFilter}
-          onChange={(e) => setDomainFilter(e.target.value)}
+          onChange={(e) => { setDomainFilter(e.target.value); setVisibleCount(25); }}
           className="text-sm border border-gray-200 rounded-md px-2 py-1.5 bg-white"
         >
           <option value="all">All domains</option>
-          {Object.entries(DOMAIN_LABELS).map(([key, label]) => (
-            <option key={key} value={key}>{label}</option>
+          {domainsPresent.map((domain) => (
+            <option key={domain} value={domain}>{domainLabels[domain] || domain}</option>
           ))}
         </select>
         <select
           value={severityFilter}
-          onChange={(e) => setSeverityFilter(e.target.value)}
+          onChange={(e) => { setSeverityFilter(e.target.value); setVisibleCount(25); }}
           className="text-sm border border-gray-200 rounded-md px-2 py-1.5 bg-white"
         >
           <option value="all">All severities</option>
@@ -286,10 +462,10 @@ function FindingsTable({ findings }) {
             </tr>
           </thead>
           <tbody>
-            {filtered.map((f) => (
+            {visible.map((f) => (
               <tr key={f.id} className="border-t border-gray-100">
                 <td className="px-3 py-2 font-mono text-xs text-gray-700 whitespace-nowrap">{f.id}</td>
-                <td className="px-3 py-2 text-gray-700 whitespace-nowrap">{DOMAIN_LABELS[f.domain]}</td>
+                <td className="px-3 py-2 text-gray-700 whitespace-nowrap">{domainLabels[f.domain] || f.domain}</td>
                 <td className="px-3 py-2"><SeverityBadge severity={f.severity} /></td>
                 <td className="px-3 py-2 font-mono text-xs text-gray-600 whitespace-nowrap max-w-[160px] truncate" title={f.resource}>{f.resource}</td>
                 <td className="px-3 py-2 text-gray-600">{f.detail}</td>
@@ -298,6 +474,14 @@ function FindingsTable({ findings }) {
           </tbody>
         </table>
       </div>
+      {filtered.length > visible.length && (
+        <button
+          onClick={() => setVisibleCount((n) => n + 25)}
+          className="mt-2 text-sm text-gray-500 hover:text-gray-800 underline"
+        >
+          Show {Math.min(25, filtered.length - visible.length)} more ({filtered.length - visible.length} remaining)
+        </button>
+      )}
     </div>
   );
 }
@@ -306,16 +490,32 @@ export default function AuditDashboard() {
   const [report, setReport] = useState(SAMPLE_REPORT);
   const [fileError, setFileError] = useState("");
 
+  const { domainLabels, domainCategory, categoryOrder } = useDomainMeta(report);
+
   const findingsById = useMemo(
     () => Object.fromEntries(report.findings.map((f) => [f.id, f])),
     [report]
   );
 
-  const severityCounts = useMemo(() => {
-    const counts = { critical: 0, high: 0, medium: 0, low: 0, info: 0 };
-    report.findings.forEach((f) => { counts[f.severity] = (counts[f.severity] || 0) + 1; });
-    return counts;
+  const findingsByDomain = useMemo(() => {
+    const grouped = {};
+    report.findings.forEach((f) => {
+      (grouped[f.domain] = grouped[f.domain] || []).push(f);
+    });
+    return grouped;
   }, [report]);
+
+  const domainsByCategory = useMemo(() => {
+    const grouped = {};
+    Object.keys(findingsByDomain).forEach((domain) => {
+      const category = domainCategory[domain] || "Other";
+      (grouped[category] = grouped[category] || []).push(domain);
+    });
+    Object.values(grouped).forEach((domains) => domains.sort((a, b) => (domainLabels[a] || a).localeCompare(domainLabels[b] || b)));
+    return grouped;
+  }, [findingsByDomain, domainCategory, domainLabels]);
+
+  const overallCounts = useMemo(() => severityCounts(report.findings), [report]);
 
   function handleFileUpload(e) {
     const file = e.target.files?.[0];
@@ -366,12 +566,17 @@ export default function AuditDashboard() {
       <div className="mb-6 bg-gray-50 rounded-lg p-4">
         <p className="text-xs font-medium text-gray-500 mb-1.5">Executive summary</p>
         <p className="text-sm text-gray-700 leading-relaxed">{report.executive_summary}</p>
+        <div className="flex gap-1.5 mt-2">
+          {SEVERITY_ORDER.filter((s) => overallCounts[s]).map((s) => (
+            <span key={s} className={`text-xs px-1.5 rounded ${SEVERITY_BG[s]}`}>{overallCounts[s]} {s}</span>
+          ))}
+        </div>
       </div>
 
       <div className="grid md:grid-cols-2 gap-6 mb-8">
         <div>
-          <p className="text-sm font-medium text-gray-700 mb-2">Findings by domain and severity</p>
-          <DomainSeverityChart findings={report.findings} />
+          <p className="text-sm font-medium text-gray-700 mb-2">Findings by category and severity</p>
+          <CategorySeverityChart findings={report.findings} domainCategory={domainCategory} categoryOrder={categoryOrder} />
         </div>
         <div>
           <p className="text-sm font-medium text-gray-700 mb-2">Severity breakdown</p>
@@ -381,16 +586,35 @@ export default function AuditDashboard() {
 
       <div className="mb-8">
         <p className="text-sm font-medium text-gray-700 mb-3">Cross-domain risk chains</p>
+        {report.risk_chains.length === 0 ? (
+          <p className="text-sm text-gray-400">No cross-domain risk chains identified in this run.</p>
+        ) : (
+          <div className="space-y-2">
+            {report.risk_chains.map((chain) => (
+              <RiskChainCard key={chain.chain_id} chain={chain} findingsById={findingsById} />
+            ))}
+          </div>
+        )}
+      </div>
+
+      <div className="mb-8">
+        <p className="text-sm font-medium text-gray-700 mb-3">Findings by category</p>
         <div className="space-y-2">
-          {report.risk_chains.map((chain) => (
-            <RiskChainCard key={chain.chain_id} chain={chain} findingsById={findingsById} />
+          {categoryOrder.filter((c) => domainsByCategory[c]?.length).map((category) => (
+            <CategorySection
+              key={category}
+              category={category}
+              domains={domainsByCategory[category]}
+              domainLabels={domainLabels}
+              findingsByDomain={findingsByDomain}
+            />
           ))}
         </div>
       </div>
 
       <div>
         <p className="text-sm font-medium text-gray-700 mb-3">All findings</p>
-        <FindingsTable findings={report.findings} />
+        <FindingsTable findings={report.findings} domainLabels={domainLabels} />
       </div>
     </div>
   );

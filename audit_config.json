@@ -1,8 +1,7 @@
 {
   "projects": [
-    "prod-network-hub",
-    "prod-app-tier-1",
-    "prod-data-tier"
+    "atlasgeek-prod",
+    "atlasgeek-website"
   ],
   "regions": [
     "asia-south1",
@@ -10,11 +9,20 @@
   ],
   "audit_domains": [
     "networking",
-    "iam",
     "firewall",
+    "load_balancing",
+    "dns",
+    "iam",
+    "org_policy",
+    "compute",
     "gke",
+    "serverless",
+    "artifact_registry",
     "cloud_sql",
-    "storage"
+    "storage",
+    "bigquery",
+    "pubsub",
+    "kms_secrets"
   ],
   "output_dir": "reports",
   "notification": {

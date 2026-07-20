@@ -1,18 +1,14 @@
-# Google Antigravity SDK
-google-antigravity-sdk>=2.0.0
+# Domain auditors (gcp_audit/domains/) shell out to the `gcloud` CLI
+# directly via subprocess, so no google-cloud-* client libraries are
+# required. Install and authenticate the Google Cloud SDK separately —
+# see README Prerequisites.
 
-# Google Cloud Libraries
-google-cloud-asset>=3.14.0
-google-cloud-compute>=1.14.0
-google-cloud-resource-manager>=1.10.0
-google-cloud-iam>=2.13.0
-google-cloud-container>=2.40.0
-google-cloud-sql-connector>=1.6.0
-google-cloud-storage>=2.14.0
-
-# Authentication
-google-auth>=2.22.0
-google-auth-httplib2>=0.1.1
+# Optional: enables real Gemini-based cross-domain risk synthesis
+# (skills/risk_synthesis.md) when GEMINI_API_KEY is set. Without it (or
+# without this package installed), gcp_audit/synthesis.py falls back to a
+# deterministic rule-based synthesiser, so the harness is fully runnable
+# without this dependency.
+google-generativeai>=0.8.0
 
 # Utilities
 python-dotenv>=1.0.0

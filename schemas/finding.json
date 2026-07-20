@@ -10,7 +10,11 @@
     },
     "domain": {
       "type": "string",
-      "enum": ["networking", "iam", "firewall"]
+      "enum": [
+        "networking", "iam", "firewall", "gke", "cloud_sql", "storage",
+        "compute", "kms_secrets", "bigquery", "pubsub", "serverless",
+        "load_balancing", "dns", "artifact_registry", "org_policy"
+      ]
     },
     "severity": {
       "type": "string",
