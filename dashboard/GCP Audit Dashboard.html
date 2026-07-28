@@ -1,0 +1,1020 @@
+<!DOCTYPE html>
+<!-- saved from url=(0022)http://localhost:5173/ -->
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <script type="module">import { injectIntoGlobalHook } from "/@react-refresh";
+injectIntoGlobalHook(window);
+window.$RefreshReg$ = () => {};
+window.$RefreshSig$ = () => (type) => type;</script>
+
+    <script type="module" src="./GCP Audit Dashboard_files/client"></script>
+
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GCP Audit Dashboard</title>
+  <style type="text/css" data-vite-dev-id="/Users/rahul/Documents/GitHub/gcp-audit-harness/dashboard/src/index.css">*, ::before, ::after {
+  --tw-border-spacing-x: 0;
+  --tw-border-spacing-y: 0;
+  --tw-translate-x: 0;
+  --tw-translate-y: 0;
+  --tw-rotate: 0;
+  --tw-skew-x: 0;
+  --tw-skew-y: 0;
+  --tw-scale-x: 1;
+  --tw-scale-y: 1;
+  --tw-pan-x:  ;
+  --tw-pan-y:  ;
+  --tw-pinch-zoom:  ;
+  --tw-scroll-snap-strictness: proximity;
+  --tw-gradient-from-position:  ;
+  --tw-gradient-via-position:  ;
+  --tw-gradient-to-position:  ;
+  --tw-ordinal:  ;
+  --tw-slashed-zero:  ;
+  --tw-numeric-figure:  ;
+  --tw-numeric-spacing:  ;
+  --tw-numeric-fraction:  ;
+  --tw-ring-inset:  ;
+  --tw-ring-offset-width: 0px;
+  --tw-ring-offset-color: #fff;
+  --tw-ring-color: rgb(59 130 246 / 0.5);
+  --tw-ring-offset-shadow: 0 0 #0000;
+  --tw-ring-shadow: 0 0 #0000;
+  --tw-shadow: 0 0 #0000;
+  --tw-shadow-colored: 0 0 #0000;
+  --tw-blur:  ;
+  --tw-brightness:  ;
+  --tw-contrast:  ;
+  --tw-grayscale:  ;
+  --tw-hue-rotate:  ;
+  --tw-invert:  ;
+  --tw-saturate:  ;
+  --tw-sepia:  ;
+  --tw-drop-shadow:  ;
+  --tw-backdrop-blur:  ;
+  --tw-backdrop-brightness:  ;
+  --tw-backdrop-contrast:  ;
+  --tw-backdrop-grayscale:  ;
+  --tw-backdrop-hue-rotate:  ;
+  --tw-backdrop-invert:  ;
+  --tw-backdrop-opacity:  ;
+  --tw-backdrop-saturate:  ;
+  --tw-backdrop-sepia:  ;
+  --tw-contain-size:  ;
+  --tw-contain-layout:  ;
+  --tw-contain-paint:  ;
+  --tw-contain-style:  ;
+}
+
+::backdrop {
+  --tw-border-spacing-x: 0;
+  --tw-border-spacing-y: 0;
+  --tw-translate-x: 0;
+  --tw-translate-y: 0;
+  --tw-rotate: 0;
+  --tw-skew-x: 0;
+  --tw-skew-y: 0;
+  --tw-scale-x: 1;
+  --tw-scale-y: 1;
+  --tw-pan-x:  ;
+  --tw-pan-y:  ;
+  --tw-pinch-zoom:  ;
+  --tw-scroll-snap-strictness: proximity;
+  --tw-gradient-from-position:  ;
+  --tw-gradient-via-position:  ;
+  --tw-gradient-to-position:  ;
+  --tw-ordinal:  ;
+  --tw-slashed-zero:  ;
+  --tw-numeric-figure:  ;
+  --tw-numeric-spacing:  ;
+  --tw-numeric-fraction:  ;
+  --tw-ring-inset:  ;
+  --tw-ring-offset-width: 0px;
+  --tw-ring-offset-color: #fff;
+  --tw-ring-color: rgb(59 130 246 / 0.5);
+  --tw-ring-offset-shadow: 0 0 #0000;
+  --tw-ring-shadow: 0 0 #0000;
+  --tw-shadow: 0 0 #0000;
+  --tw-shadow-colored: 0 0 #0000;
+  --tw-blur:  ;
+  --tw-brightness:  ;
+  --tw-contrast:  ;
+  --tw-grayscale:  ;
+  --tw-hue-rotate:  ;
+  --tw-invert:  ;
+  --tw-saturate:  ;
+  --tw-sepia:  ;
+  --tw-drop-shadow:  ;
+  --tw-backdrop-blur:  ;
+  --tw-backdrop-brightness:  ;
+  --tw-backdrop-contrast:  ;
+  --tw-backdrop-grayscale:  ;
+  --tw-backdrop-hue-rotate:  ;
+  --tw-backdrop-invert:  ;
+  --tw-backdrop-opacity:  ;
+  --tw-backdrop-saturate:  ;
+  --tw-backdrop-sepia:  ;
+  --tw-contain-size:  ;
+  --tw-contain-layout:  ;
+  --tw-contain-paint:  ;
+  --tw-contain-style:  ;
+}/*
+! tailwindcss v3.4.19 | MIT License | https://tailwindcss.com
+*//*
+1. Prevent padding and border from affecting element width. (https://github.com/mozdevs/cssremedy/issues/4)
+2. Allow adding a border to an element by just adding a border-width. (https://github.com/tailwindcss/tailwindcss/pull/116)
+*/
+
+*,
+::before,
+::after {
+  box-sizing: border-box; /* 1 */
+  border-width: 0; /* 2 */
+  border-style: solid; /* 2 */
+  border-color: #e5e7eb; /* 2 */
+}
+
+::before,
+::after {
+  --tw-content: '';
+}
+
+/*
+1. Use a consistent sensible line-height in all browsers.
+2. Prevent adjustments of font size after orientation changes in iOS.
+3. Use a more readable tab size.
+4. Use the user's configured `sans` font-family by default.
+5. Use the user's configured `sans` font-feature-settings by default.
+6. Use the user's configured `sans` font-variation-settings by default.
+7. Disable tap highlights on iOS
+*/
+
+html,
+:host {
+  line-height: 1.5; /* 1 */
+  -webkit-text-size-adjust: 100%; /* 2 */
+  -moz-tab-size: 4; /* 3 */
+  -o-tab-size: 4;
+     tab-size: 4; /* 3 */
+  font-family: ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji"; /* 4 */
+  font-feature-settings: normal; /* 5 */
+  font-variation-settings: normal; /* 6 */
+  -webkit-tap-highlight-color: transparent; /* 7 */
+}
+
+/*
+1. Remove the margin in all browsers.
+2. Inherit line-height from `html` so users can set them as a class directly on the `html` element.
+*/
+
+body {
+  margin: 0; /* 1 */
+  line-height: inherit; /* 2 */
+}
+
+/*
+1. Add the correct height in Firefox.
+2. Correct the inheritance of border color in Firefox. (https://bugzilla.mozilla.org/show_bug.cgi?id=190655)
+3. Ensure horizontal rules are visible by default.
+*/
+
+hr {
+  height: 0; /* 1 */
+  color: inherit; /* 2 */
+  border-top-width: 1px; /* 3 */
+}
+
+/*
+Add the correct text decoration in Chrome, Edge, and Safari.
+*/
+
+abbr:where([title]) {
+  -webkit-text-decoration: underline dotted;
+          text-decoration: underline dotted;
+}
+
+/*
+Remove the default font size and weight for headings.
+*/
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-size: inherit;
+  font-weight: inherit;
+}
+
+/*
+Reset links to optimize for opt-in styling instead of opt-out.
+*/
+
+a {
+  color: inherit;
+  text-decoration: inherit;
+}
+
+/*
+Add the correct font weight in Edge and Safari.
+*/
+
+b,
+strong {
+  font-weight: bolder;
+}
+
+/*
+1. Use the user's configured `mono` font-family by default.
+2. Use the user's configured `mono` font-feature-settings by default.
+3. Use the user's configured `mono` font-variation-settings by default.
+4. Correct the odd `em` font sizing in all browsers.
+*/
+
+code,
+kbd,
+samp,
+pre {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace; /* 1 */
+  font-feature-settings: normal; /* 2 */
+  font-variation-settings: normal; /* 3 */
+  font-size: 1em; /* 4 */
+}
+
+/*
+Add the correct font size in all browsers.
+*/
+
+small {
+  font-size: 80%;
+}
+
+/*
+Prevent `sub` and `sup` elements from affecting the line height in all browsers.
+*/
+
+sub,
+sup {
+  font-size: 75%;
+  line-height: 0;
+  position: relative;
+  vertical-align: baseline;
+}
+
+sub {
+  bottom: -0.25em;
+}
+
+sup {
+  top: -0.5em;
+}
+
+/*
+1. Remove text indentation from table contents in Chrome and Safari. (https://bugs.chromium.org/p/chromium/issues/detail?id=999088, https://bugs.webkit.org/show_bug.cgi?id=201297)
+2. Correct table border color inheritance in all Chrome and Safari. (https://bugs.chromium.org/p/chromium/issues/detail?id=935729, https://bugs.webkit.org/show_bug.cgi?id=195016)
+3. Remove gaps between table borders by default.
+*/
+
+table {
+  text-indent: 0; /* 1 */
+  border-color: inherit; /* 2 */
+  border-collapse: collapse; /* 3 */
+}
+
+/*
+1. Change the font styles in all browsers.
+2. Remove the margin in Firefox and Safari.
+3. Remove default padding in all browsers.
+*/
+
+button,
+input,
+optgroup,
+select,
+textarea {
+  font-family: inherit; /* 1 */
+  font-feature-settings: inherit; /* 1 */
+  font-variation-settings: inherit; /* 1 */
+  font-size: 100%; /* 1 */
+  font-weight: inherit; /* 1 */
+  line-height: inherit; /* 1 */
+  letter-spacing: inherit; /* 1 */
+  color: inherit; /* 1 */
+  margin: 0; /* 2 */
+  padding: 0; /* 3 */
+}
+
+/*
+Remove the inheritance of text transform in Edge and Firefox.
+*/
+
+button,
+select {
+  text-transform: none;
+}
+
+/*
+1. Correct the inability to style clickable types in iOS and Safari.
+2. Remove default button styles.
+*/
+
+button,
+input:where([type='button']),
+input:where([type='reset']),
+input:where([type='submit']) {
+  -webkit-appearance: button; /* 1 */
+  background-color: transparent; /* 2 */
+  background-image: none; /* 2 */
+}
+
+/*
+Use the modern Firefox focus style for all focusable elements.
+*/
+
+:-moz-focusring {
+  outline: auto;
+}
+
+/*
+Remove the additional `:invalid` styles in Firefox. (https://github.com/mozilla/gecko-dev/blob/2f9eacd9d3d995c937b4251a5557d95d494c9be1/layout/style/res/forms.css#L728-L737)
+*/
+
+:-moz-ui-invalid {
+  box-shadow: none;
+}
+
+/*
+Add the correct vertical alignment in Chrome and Firefox.
+*/
+
+progress {
+  vertical-align: baseline;
+}
+
+/*
+Correct the cursor style of increment and decrement buttons in Safari.
+*/
+
+::-webkit-inner-spin-button,
+::-webkit-outer-spin-button {
+  height: auto;
+}
+
+/*
+1. Correct the odd appearance in Chrome and Safari.
+2. Correct the outline style in Safari.
+*/
+
+[type='search'] {
+  -webkit-appearance: textfield; /* 1 */
+  outline-offset: -2px; /* 2 */
+}
+
+/*
+Remove the inner padding in Chrome and Safari on macOS.
+*/
+
+::-webkit-search-decoration {
+  -webkit-appearance: none;
+}
+
+/*
+1. Correct the inability to style clickable types in iOS and Safari.
+2. Change font properties to `inherit` in Safari.
+*/
+
+::-webkit-file-upload-button {
+  -webkit-appearance: button; /* 1 */
+  font: inherit; /* 2 */
+}
+
+/*
+Add the correct display in Chrome and Safari.
+*/
+
+summary {
+  display: list-item;
+}
+
+/*
+Removes the default spacing and border for appropriate elements.
+*/
+
+blockquote,
+dl,
+dd,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+hr,
+figure,
+p,
+pre {
+  margin: 0;
+}
+
+fieldset {
+  margin: 0;
+  padding: 0;
+}
+
+legend {
+  padding: 0;
+}
+
+ol,
+ul,
+menu {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+/*
+Reset default styling for dialogs.
+*/
+dialog {
+  padding: 0;
+}
+
+/*
+Prevent resizing textareas horizontally by default.
+*/
+
+textarea {
+  resize: vertical;
+}
+
+/*
+1. Reset the default placeholder opacity in Firefox. (https://github.com/tailwindlabs/tailwindcss/issues/3300)
+2. Set the default placeholder color to the user's configured gray 400 color.
+*/
+
+input::-moz-placeholder, textarea::-moz-placeholder {
+  opacity: 1; /* 1 */
+  color: #9ca3af; /* 2 */
+}
+
+input::placeholder,
+textarea::placeholder {
+  opacity: 1; /* 1 */
+  color: #9ca3af; /* 2 */
+}
+
+/*
+Set the default cursor for buttons.
+*/
+
+button,
+[role="button"] {
+  cursor: pointer;
+}
+
+/*
+Make sure disabled buttons don't get the pointer cursor.
+*/
+:disabled {
+  cursor: default;
+}
+
+/*
+1. Make replaced elements `display: block` by default. (https://github.com/mozdevs/cssremedy/issues/14)
+2. Add `vertical-align: middle` to align replaced elements more sensibly by default. (https://github.com/jensimmons/cssremedy/issues/14#issuecomment-634934210)
+   This can trigger a poorly considered lint error in some tools but is included by design.
+*/
+
+img,
+svg,
+video,
+canvas,
+audio,
+iframe,
+embed,
+object {
+  display: block; /* 1 */
+  vertical-align: middle; /* 2 */
+}
+
+/*
+Constrain images and videos to the parent width and preserve their intrinsic aspect ratio. (https://github.com/mozdevs/cssremedy/issues/14)
+*/
+
+img,
+video {
+  max-width: 100%;
+  height: auto;
+}
+
+/* Make elements with the HTML hidden attribute stay hidden by default */
+[hidden]:where(:not([hidden="until-found"])) {
+  display: none;
+}
+.visible {
+  visibility: visible;
+}
+.absolute {
+  position: absolute;
+}
+.relative {
+  position: relative;
+}
+.left-2\.5 {
+  left: 0.625rem;
+}
+.top-2\.5 {
+  top: 0.625rem;
+}
+.mx-auto {
+  margin-left: auto;
+  margin-right: auto;
+}
+.mb-1 {
+  margin-bottom: 0.25rem;
+}
+.mb-1\.5 {
+  margin-bottom: 0.375rem;
+}
+.mb-2 {
+  margin-bottom: 0.5rem;
+}
+.mb-3 {
+  margin-bottom: 0.75rem;
+}
+.mb-4 {
+  margin-bottom: 1rem;
+}
+.mb-6 {
+  margin-bottom: 1.5rem;
+}
+.mb-8 {
+  margin-bottom: 2rem;
+}
+.ml-1 {
+  margin-left: 0.25rem;
+}
+.ml-auto {
+  margin-left: auto;
+}
+.mt-1 {
+  margin-top: 0.25rem;
+}
+.mt-2 {
+  margin-top: 0.5rem;
+}
+.block {
+  display: block;
+}
+.flex {
+  display: flex;
+}
+.inline-flex {
+  display: inline-flex;
+}
+.table {
+  display: table;
+}
+.grid {
+  display: grid;
+}
+.hidden {
+  display: none;
+}
+.h-3\.5 {
+  height: 0.875rem;
+}
+.h-4 {
+  height: 1rem;
+}
+.h-5 {
+  height: 1.25rem;
+}
+.w-3\.5 {
+  width: 0.875rem;
+}
+.w-4 {
+  width: 1rem;
+}
+.w-5 {
+  width: 1.25rem;
+}
+.w-56 {
+  width: 14rem;
+}
+.w-full {
+  width: 100%;
+}
+.max-w-5xl {
+  max-width: 64rem;
+}
+.max-w-\[140px\] {
+  max-width: 140px;
+}
+.max-w-\[160px\] {
+  max-width: 160px;
+}
+.cursor-pointer {
+  cursor: pointer;
+}
+.list-inside {
+  list-style-position: inside;
+}
+.list-disc {
+  list-style-type: disc;
+}
+.grid-cols-2 {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+.flex-wrap {
+  flex-wrap: wrap;
+}
+.items-start {
+  align-items: flex-start;
+}
+.items-center {
+  align-items: center;
+}
+.justify-between {
+  justify-content: space-between;
+}
+.gap-1 {
+  gap: 0.25rem;
+}
+.gap-1\.5 {
+  gap: 0.375rem;
+}
+.gap-2 {
+  gap: 0.5rem;
+}
+.gap-3 {
+  gap: 0.75rem;
+}
+.gap-6 {
+  gap: 1.5rem;
+}
+.space-y-1 > :not([hidden]) ~ :not([hidden]) {
+  --tw-space-y-reverse: 0;
+  margin-top: calc(0.25rem * calc(1 - var(--tw-space-y-reverse)));
+  margin-bottom: calc(0.25rem * var(--tw-space-y-reverse));
+}
+.space-y-2 > :not([hidden]) ~ :not([hidden]) {
+  --tw-space-y-reverse: 0;
+  margin-top: calc(0.5rem * calc(1 - var(--tw-space-y-reverse)));
+  margin-bottom: calc(0.5rem * var(--tw-space-y-reverse));
+}
+.space-y-3 > :not([hidden]) ~ :not([hidden]) {
+  --tw-space-y-reverse: 0;
+  margin-top: calc(0.75rem * calc(1 - var(--tw-space-y-reverse)));
+  margin-bottom: calc(0.75rem * var(--tw-space-y-reverse));
+}
+.self-center {
+  align-self: center;
+}
+.overflow-hidden {
+  overflow: hidden;
+}
+.overflow-x-auto {
+  overflow-x: auto;
+}
+.truncate {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.whitespace-nowrap {
+  white-space: nowrap;
+}
+.rounded {
+  border-radius: 0.25rem;
+}
+.rounded-lg {
+  border-radius: 0.5rem;
+}
+.rounded-md {
+  border-radius: 0.375rem;
+}
+.border {
+  border-width: 1px;
+}
+.border-t {
+  border-top-width: 1px;
+}
+.border-amber-200 {
+  --tw-border-opacity: 1;
+  border-color: rgb(253 230 138 / var(--tw-border-opacity, 1));
+}
+.border-blue-200 {
+  --tw-border-opacity: 1;
+  border-color: rgb(191 219 254 / var(--tw-border-opacity, 1));
+}
+.border-gray-100 {
+  --tw-border-opacity: 1;
+  border-color: rgb(243 244 246 / var(--tw-border-opacity, 1));
+}
+.border-gray-200 {
+  --tw-border-opacity: 1;
+  border-color: rgb(229 231 235 / var(--tw-border-opacity, 1));
+}
+.border-red-200 {
+  --tw-border-opacity: 1;
+  border-color: rgb(254 202 202 / var(--tw-border-opacity, 1));
+}
+.bg-amber-50 {
+  --tw-bg-opacity: 1;
+  background-color: rgb(255 251 235 / var(--tw-bg-opacity, 1));
+}
+.bg-blue-50 {
+  --tw-bg-opacity: 1;
+  background-color: rgb(239 246 255 / var(--tw-bg-opacity, 1));
+}
+.bg-gray-50 {
+  --tw-bg-opacity: 1;
+  background-color: rgb(249 250 251 / var(--tw-bg-opacity, 1));
+}
+.bg-gray-50\/40 {
+  background-color: rgb(249 250 251 / 0.4);
+}
+.bg-gray-50\/50 {
+  background-color: rgb(249 250 251 / 0.5);
+}
+.bg-red-50 {
+  --tw-bg-opacity: 1;
+  background-color: rgb(254 242 242 / var(--tw-bg-opacity, 1));
+}
+.bg-white {
+  --tw-bg-opacity: 1;
+  background-color: rgb(255 255 255 / var(--tw-bg-opacity, 1));
+}
+.p-4 {
+  padding: 1rem;
+}
+.p-6 {
+  padding: 1.5rem;
+}
+.px-1\.5 {
+  padding-left: 0.375rem;
+  padding-right: 0.375rem;
+}
+.px-2 {
+  padding-left: 0.5rem;
+  padding-right: 0.5rem;
+}
+.px-3 {
+  padding-left: 0.75rem;
+  padding-right: 0.75rem;
+}
+.px-4 {
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
+.py-0\.5 {
+  padding-top: 0.125rem;
+  padding-bottom: 0.125rem;
+}
+.py-1 {
+  padding-top: 0.25rem;
+  padding-bottom: 0.25rem;
+}
+.py-1\.5 {
+  padding-top: 0.375rem;
+  padding-bottom: 0.375rem;
+}
+.py-2 {
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+}
+.py-3 {
+  padding-top: 0.75rem;
+  padding-bottom: 0.75rem;
+}
+.pb-3 {
+  padding-bottom: 0.75rem;
+}
+.pb-4 {
+  padding-bottom: 1rem;
+}
+.pl-8 {
+  padding-left: 2rem;
+}
+.pr-2 {
+  padding-right: 0.5rem;
+}
+.pt-1 {
+  padding-top: 0.25rem;
+}
+.text-left {
+  text-align: left;
+}
+.font-mono {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+}
+.text-2xl {
+  font-size: 1.5rem;
+  line-height: 2rem;
+}
+.text-sm {
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+}
+.text-xl {
+  font-size: 1.25rem;
+  line-height: 1.75rem;
+}
+.text-xs {
+  font-size: 0.75rem;
+  line-height: 1rem;
+}
+.font-medium {
+  font-weight: 500;
+}
+.capitalize {
+  text-transform: capitalize;
+}
+.leading-relaxed {
+  line-height: 1.625;
+}
+.text-amber-800 {
+  --tw-text-opacity: 1;
+  color: rgb(146 64 14 / var(--tw-text-opacity, 1));
+}
+.text-blue-800 {
+  --tw-text-opacity: 1;
+  color: rgb(30 64 175 / var(--tw-text-opacity, 1));
+}
+.text-gray-400 {
+  --tw-text-opacity: 1;
+  color: rgb(156 163 175 / var(--tw-text-opacity, 1));
+}
+.text-gray-500 {
+  --tw-text-opacity: 1;
+  color: rgb(107 114 128 / var(--tw-text-opacity, 1));
+}
+.text-gray-600 {
+  --tw-text-opacity: 1;
+  color: rgb(75 85 99 / var(--tw-text-opacity, 1));
+}
+.text-gray-700 {
+  --tw-text-opacity: 1;
+  color: rgb(55 65 81 / var(--tw-text-opacity, 1));
+}
+.text-gray-800 {
+  --tw-text-opacity: 1;
+  color: rgb(31 41 55 / var(--tw-text-opacity, 1));
+}
+.text-gray-900 {
+  --tw-text-opacity: 1;
+  color: rgb(17 24 39 / var(--tw-text-opacity, 1));
+}
+.text-red-700 {
+  --tw-text-opacity: 1;
+  color: rgb(185 28 28 / var(--tw-text-opacity, 1));
+}
+.text-red-800 {
+  --tw-text-opacity: 1;
+  color: rgb(153 27 27 / var(--tw-text-opacity, 1));
+}
+.underline {
+  text-decoration-line: underline;
+}
+.shadow {
+  --tw-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
+  --tw-shadow-colored: 0 1px 3px 0 var(--tw-shadow-color), 0 1px 2px -1px var(--tw-shadow-color);
+  box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
+}
+.filter {
+  filter: var(--tw-blur) var(--tw-brightness) var(--tw-contrast) var(--tw-grayscale) var(--tw-hue-rotate) var(--tw-invert) var(--tw-saturate) var(--tw-sepia) var(--tw-drop-shadow);
+}
+.transition {
+  transition-property: color, background-color, border-color, text-decoration-color, fill, stroke, opacity, box-shadow, transform, filter, backdrop-filter;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 150ms;
+}
+
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background-color: #fafafa;
+}
+
+.first\:border-t-0:first-child {
+  border-top-width: 0px;
+}
+
+.hover\:bg-gray-50:hover {
+  --tw-bg-opacity: 1;
+  background-color: rgb(249 250 251 / var(--tw-bg-opacity, 1));
+}
+
+.hover\:bg-gray-50\/70:hover {
+  background-color: rgb(249 250 251 / 0.7);
+}
+
+.hover\:text-gray-800:hover {
+  --tw-text-opacity: 1;
+  color: rgb(31 41 55 / var(--tw-text-opacity, 1));
+}
+
+@media (min-width: 768px) {
+
+  .md\:grid-cols-2 {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .md\:grid-cols-4 {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+</style></head>
+  <body data-new-gr-c-s-check-loaded="14.1313.0" data-gr-ext-installed="">
+    <div id="root"><div class="max-w-5xl mx-auto p-6 bg-white"><div class="flex items-start justify-between mb-6"><div><h1 class="text-xl font-medium text-gray-900">GCP infrastructure audit</h1><p class="text-sm text-gray-500 mt-1">prod-network-hub, prod-app-tier-1, prod-data-tier</p></div><label class="flex items-center gap-2 text-sm border border-gray-200 rounded-md px-3 py-2 cursor-pointer hover:bg-gray-50 transition"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-upload w-4 h-4 text-gray-500"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" x2="12" y1="3" y2="15"></line></svg>Load report<input type="file" accept="application/json" class="hidden"></label></div><div class="grid grid-cols-2 md:grid-cols-4 gap-3 mb-6"><div class="bg-gray-50 rounded-lg p-4 flex items-center justify-between"><div><p class="text-xs text-gray-500 mb-1">Projects audited</p><p class="text-2xl font-medium text-gray-900">3</p></div><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-folder-tree w-5 h-5 text-gray-400"><path d="M20 10a1 1 0 0 0 1-1V6a1 1 0 0 0-1-1h-2.5a1 1 0 0 1-.8-.4l-.9-1.2A1 1 0 0 0 15 3h-2a1 1 0 0 0-1 1v5a1 1 0 0 0 1 1Z"></path><path d="M20 21a1 1 0 0 0 1-1v-3a1 1 0 0 0-1-1h-2.9a1 1 0 0 1-.88-.55l-.42-.85a1 1 0 0 0-.92-.6H13a1 1 0 0 0-1 1v5a1 1 0 0 0 1 1Z"></path><path d="M3 5a2 2 0 0 0 2 2h3"></path><path d="M3 3v13a2 2 0 0 0 2 2h3"></path></svg></div><div class="bg-gray-50 rounded-lg p-4 flex items-center justify-between"><div><p class="text-xs text-gray-500 mb-1">Total findings</p><p class="text-2xl font-medium text-gray-900">19</p></div><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-triangle-alert w-5 h-5 text-gray-400"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3"></path><path d="M12 9v4"></path><path d="M12 17h.01"></path></svg></div><div class="bg-gray-50 rounded-lg p-4 flex items-center justify-between"><div><p class="text-xs text-gray-500 mb-1">Risk chains</p><p class="text-2xl font-medium text-gray-900">3</p></div><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-link2 w-5 h-5 text-gray-400"><path d="M9 17H7A5 5 0 0 1 7 7h2"></path><path d="M15 7h2a5 5 0 1 1 0 10h-2"></path><line x1="8" x2="16" y1="12" y2="12"></line></svg></div><div class="bg-gray-50 rounded-lg p-4 flex items-center justify-between"><div><p class="text-xs text-gray-500 mb-1">Audit duration</p><p class="text-2xl font-medium text-gray-900">2m 47s</p></div><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-clock w-5 h-5 text-gray-400"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg></div></div><div class="mb-6 bg-gray-50 rounded-lg p-4"><p class="text-xs font-medium text-gray-500 mb-1.5">Executive summary</p><p class="text-sm text-gray-700 leading-relaxed">The audit identified 19 findings across six domains, including three cross-domain risk chains. The most urgent chain combines an internet-facing firewall rule with an unguarded owner-level service account in prod-app-tier-1. Seven findings can be resolved within a single sprint with low engineering effort.</p><div class="flex gap-1.5 mt-2"><span class="text-xs px-1.5 rounded bg-red-50 text-red-800 border-red-200">3 critical</span><span class="text-xs px-1.5 rounded bg-amber-50 text-amber-800 border-amber-200">5 high</span><span class="text-xs px-1.5 rounded bg-blue-50 text-blue-800 border-blue-200">6 medium</span><span class="text-xs px-1.5 rounded bg-gray-50 text-gray-700 border-gray-200">3 low</span><span class="text-xs px-1.5 rounded bg-gray-50 text-gray-600 border-gray-200">2 info</span></div></div><div class="grid md:grid-cols-2 gap-6 mb-8"><div><p class="text-sm font-medium text-gray-700 mb-2">Findings by category and severity</p><div class="recharts-responsive-container" style="width: 100%; height: 280px; min-width: 0px;"><div class="recharts-wrapper" style="position: relative; cursor: default; width: 100%; height: 100%; max-height: 280px; max-width: 476px;"><svg class="recharts-surface" width="476" height="280" viewBox="0 0 476 280" style="width: 100%; height: 100%;"><title></title><desc></desc><defs><clippath id="recharts2-clip"><rect x="158" y="8" height="242" width="302"></rect></clippath></defs><g class="recharts-layer recharts-cartesian-axis recharts-xAxis xAxis"><g class="recharts-cartesian-axis-ticks"><g class="recharts-layer recharts-cartesian-axis-tick"><text orientation="bottom" width="302" height="30" stroke="none" font-size="12" x="158" y="258" class="recharts-text recharts-cartesian-axis-tick-value" text-anchor="middle" fill="#5F5E5A"><tspan x="158" dy="0.71em">0</tspan></text></g><g class="recharts-layer recharts-cartesian-axis-tick"><text orientation="bottom" width="302" height="30" stroke="none" font-size="12" x="233.5" y="258" class="recharts-text recharts-cartesian-axis-tick-value" text-anchor="middle" fill="#5F5E5A"><tspan x="233.5" dy="0.71em">2</tspan></text></g><g class="recharts-layer recharts-cartesian-axis-tick"><text orientation="bottom" width="302" height="30" stroke="none" font-size="12" x="309" y="258" class="recharts-text recharts-cartesian-axis-tick-value" text-anchor="middle" fill="#5F5E5A"><tspan x="309" dy="0.71em">4</tspan></text></g><g class="recharts-layer recharts-cartesian-axis-tick"><text orientation="bottom" width="302" height="30" stroke="none" font-size="12" x="384.5" y="258" class="recharts-text recharts-cartesian-axis-tick-value" text-anchor="middle" fill="#5F5E5A"><tspan x="384.5" dy="0.71em">6</tspan></text></g><g class="recharts-layer recharts-cartesian-axis-tick"><text orientation="bottom" width="302" height="30" stroke="none" font-size="12" x="460" y="258" class="recharts-text recharts-cartesian-axis-tick-value" text-anchor="middle" fill="#5F5E5A"><tspan x="460" dy="0.71em">8</tspan></text></g></g></g><g class="recharts-layer recharts-cartesian-axis recharts-yAxis yAxis"><line orientation="left" width="150" height="242" x="8" y="8" class="recharts-cartesian-axis-line" stroke="#E5E3DA" fill="none" x1="158" y1="8" x2="158" y2="250"></line><g class="recharts-cartesian-axis-ticks"><g class="recharts-layer recharts-cartesian-axis-tick"><text orientation="left" width="150" height="242" stroke="none" font-size="11" x="150" y="32.2" class="recharts-text recharts-cartesian-axis-tick-value" text-anchor="end" fill="#5F5E5A"><tspan x="150" dy="0.355em">Networking</tspan></text></g><g class="recharts-layer recharts-cartesian-axis-tick"><text orientation="left" width="150" height="242" stroke="none" font-size="11" x="150" y="80.6" class="recharts-text recharts-cartesian-axis-tick-value" text-anchor="end" fill="#5F5E5A"><tspan x="150" dy="-0.14500000000000002em">Identity &amp;</tspan><tspan x="150" dy="1em">Governance</tspan></text></g><g class="recharts-layer recharts-cartesian-axis-tick"><text orientation="left" width="150" height="242" stroke="none" font-size="11" x="150" y="129" class="recharts-text recharts-cartesian-axis-tick-value" text-anchor="end" fill="#5F5E5A"><tspan x="150" dy="-0.14500000000000002em">Compute &amp;</tspan><tspan x="150" dy="1em">Containers</tspan></text></g><g class="recharts-layer recharts-cartesian-axis-tick"><text orientation="left" width="150" height="242" stroke="none" font-size="11" x="150" y="177.39999999999998" class="recharts-text recharts-cartesian-axis-tick-value" text-anchor="end" fill="#5F5E5A"><tspan x="150" dy="-0.14500000000000002em">Data, Storage &amp;</tspan><tspan x="150" dy="1em">Messaging</tspan></text></g><g class="recharts-layer recharts-cartesian-axis-tick"><text orientation="left" width="150" height="242" stroke="none" font-size="11" x="150" y="225.79999999999998" class="recharts-text recharts-cartesian-axis-tick-value" text-anchor="end" fill="#5F5E5A"><tspan x="150" dy="-0.14500000000000002em">Encryption &amp;</tspan><tspan x="150" dy="1em">Secrets</tspan></text></g></g></g><g class="recharts-layer recharts-bar"><g class="recharts-layer recharts-bar-rectangles"><g class="recharts-layer"><g class="recharts-layer recharts-bar-rectangle"><path x="158" y="12.84" width="37.75" height="38" radius="0,2,2,0" fill="#A32D2D" name="critical" class="recharts-rectangle" d="M158,12.84L 193.75,12.84A 2,2,0,0,1,
+        195.75,14.84L 195.75,48.84A 2,2,0,0,1,
+        193.75,50.84L 158,50.84Z"></path></g><g class="recharts-layer recharts-bar-rectangle"></g><g class="recharts-layer recharts-bar-rectangle"><path x="158" y="109.64" width="37.75" height="38" radius="0,2,2,0" fill="#A32D2D" name="critical" class="recharts-rectangle" d="M158,109.64L 193.75,109.64A 2,2,0,0,1,
+        195.75,111.64L 195.75,145.64A 2,2,0,0,1,
+        193.75,147.64L 158,147.64Z"></path></g><g class="recharts-layer recharts-bar-rectangle"><path x="158" y="158.04" width="37.75" height="38" radius="0,2,2,0" fill="#A32D2D" name="critical" class="recharts-rectangle" d="M158,158.04L 193.75,158.04A 2,2,0,0,1,
+        195.75,160.04L 195.75,194.04A 2,2,0,0,1,
+        193.75,196.04L 158,196.04Z"></path></g><g class="recharts-layer recharts-bar-rectangle"></g></g></g><g class="recharts-layer"></g></g><g class="recharts-layer recharts-bar"><g class="recharts-layer recharts-bar-rectangles"><g class="recharts-layer"><g class="recharts-layer recharts-bar-rectangle"><path x="195.75" y="12.84" width="75.5" height="38" radius="0,2,2,0" fill="#BA7517" name="high" class="recharts-rectangle" d="M195.75,12.84L 269.25,12.84A 2,2,0,0,1,
+        271.25,14.84L 271.25,48.84A 2,2,0,0,1,
+        269.25,50.84L 195.75,50.84Z"></path></g><g class="recharts-layer recharts-bar-rectangle"><path x="158" y="61.239999999999995" width="75.5" height="38" radius="0,2,2,0" fill="#BA7517" name="high" class="recharts-rectangle" d="M158,61.239999999999995L 231.5,61.239999999999995A 2,2,0,0,1,
+        233.5,63.239999999999995L 233.5,97.24A 2,2,0,0,1,
+        231.5,99.24L 158,99.24Z"></path></g><g class="recharts-layer recharts-bar-rectangle"></g><g class="recharts-layer recharts-bar-rectangle"><path x="195.75" y="158.04" width="37.75" height="38" radius="0,2,2,0" fill="#BA7517" name="high" class="recharts-rectangle" d="M195.75,158.04L 231.5,158.04A 2,2,0,0,1,
+        233.5,160.04L 233.5,194.04A 2,2,0,0,1,
+        231.5,196.04L 195.75,196.04Z"></path></g><g class="recharts-layer recharts-bar-rectangle"></g></g></g><g class="recharts-layer"></g></g><g class="recharts-layer recharts-bar"><g class="recharts-layer recharts-bar-rectangles"><g class="recharts-layer"><g class="recharts-layer recharts-bar-rectangle"><path x="271.25" y="12.84" width="75.5" height="38" radius="0,2,2,0" fill="#185FA5" name="medium" class="recharts-rectangle" d="M271.25,12.84L 344.75,12.84A 2,2,0,0,1,
+        346.75,14.84L 346.75,48.84A 2,2,0,0,1,
+        344.75,50.84L 271.25,50.84Z"></path></g><g class="recharts-layer recharts-bar-rectangle"><path x="233.5" y="61.239999999999995" width="37.75" height="38" radius="0,2,2,0" fill="#185FA5" name="medium" class="recharts-rectangle" d="M233.5,61.239999999999995L 269.25,61.239999999999995A 2,2,0,0,1,
+        271.25,63.239999999999995L 271.25,97.24A 2,2,0,0,1,
+        269.25,99.24L 233.5,99.24Z"></path></g><g class="recharts-layer recharts-bar-rectangle"><path x="195.75" y="109.64" width="37.75" height="38" radius="0,2,2,0" fill="#185FA5" name="medium" class="recharts-rectangle" d="M195.75,109.64L 231.5,109.64A 2,2,0,0,1,
+        233.5,111.64L 233.5,145.64A 2,2,0,0,1,
+        231.5,147.64L 195.75,147.64Z"></path></g><g class="recharts-layer recharts-bar-rectangle"><path x="233.5" y="158.04" width="75.5" height="38" radius="0,2,2,0" fill="#185FA5" name="medium" class="recharts-rectangle" d="M233.5,158.04L 307,158.04A 2,2,0,0,1,
+        309,160.04L 309,194.04A 2,2,0,0,1,
+        307,196.04L 233.5,196.04Z"></path></g><g class="recharts-layer recharts-bar-rectangle"></g></g></g><g class="recharts-layer"></g></g><g class="recharts-layer recharts-bar"><g class="recharts-layer recharts-bar-rectangles"><g class="recharts-layer"><g class="recharts-layer recharts-bar-rectangle"><path x="346.75" y="12.84" width="37.75" height="38" radius="0,2,2,0" fill="#5F5E5A" name="low" class="recharts-rectangle" d="M346.75,12.84L 382.5,12.84A 2,2,0,0,1,
+        384.5,14.84L 384.5,48.84A 2,2,0,0,1,
+        382.5,50.84L 346.75,50.84Z"></path></g><g class="recharts-layer recharts-bar-rectangle"><path x="271.25" y="61.239999999999995" width="37.75" height="38" radius="0,2,2,0" fill="#5F5E5A" name="low" class="recharts-rectangle" d="M271.25,61.239999999999995L 307,61.239999999999995A 2,2,0,0,1,
+        309,63.239999999999995L 309,97.24A 2,2,0,0,1,
+        307,99.24L 271.25,99.24Z"></path></g><g class="recharts-layer recharts-bar-rectangle"><path x="233.5" y="109.64" width="37.75" height="38" radius="0,2,2,0" fill="#5F5E5A" name="low" class="recharts-rectangle" d="M233.5,109.64L 269.25,109.64A 2,2,0,0,1,
+        271.25,111.64L 271.25,145.64A 2,2,0,0,1,
+        269.25,147.64L 233.5,147.64Z"></path></g><g class="recharts-layer recharts-bar-rectangle"></g><g class="recharts-layer recharts-bar-rectangle"></g></g></g><g class="recharts-layer"></g></g><g class="recharts-layer recharts-bar"><g class="recharts-layer recharts-bar-rectangles"><g class="recharts-layer"><g class="recharts-layer recharts-bar-rectangle"><path x="384.5" y="12.84" width="37.75" height="38" radius="0,2,2,0" fill="#888780" name="info" class="recharts-rectangle" d="M384.5,12.84L 420.25,12.84A 2,2,0,0,1,
+        422.25,14.84L 422.25,48.84A 2,2,0,0,1,
+        420.25,50.84L 384.5,50.84Z"></path></g><g class="recharts-layer recharts-bar-rectangle"></g><g class="recharts-layer recharts-bar-rectangle"></g><g class="recharts-layer recharts-bar-rectangle"><path x="309" y="158.04" width="37.75" height="38" radius="0,2,2,0" fill="#888780" name="info" class="recharts-rectangle" d="M309,158.04L 344.75,158.04A 2,2,0,0,1,
+        346.75,160.04L 346.75,194.04A 2,2,0,0,1,
+        344.75,196.04L 309,196.04Z"></path></g><g class="recharts-layer recharts-bar-rectangle"></g></g></g><g class="recharts-layer"></g></g></svg><div tabindex="-1" class="recharts-tooltip-wrapper recharts-tooltip-wrapper-right recharts-tooltip-wrapper-bottom" style="visibility: hidden; pointer-events: none; position: absolute; top: 0px; left: 0px; transform: translate(158px, 10px);"><div class="recharts-default-tooltip" style="margin: 0px; padding: 10px; background-color: rgb(255, 255, 255); border: 1px solid rgb(204, 204, 204); white-space: nowrap;"><p class="recharts-tooltip-label" style="margin: 0px;"></p></div></div></div></div></div><div><p class="text-sm font-medium text-gray-700 mb-2">Severity breakdown</p><div class="recharts-responsive-container" style="width: 100%; height: 280px; min-width: 0px;"><div class="recharts-wrapper" style="position: relative; cursor: default; width: 100%; height: 100%; max-height: 280px; max-width: 476px;"><svg cx="50%" cy="50%" class="recharts-surface" width="476" height="280" viewBox="0 0 476 280" style="width: 100%; height: 100%;"><title></title><desc></desc><defs><clippath id="recharts14-clip"><rect x="5" y="5" height="234" width="466"></rect></clippath></defs><g class="recharts-layer recharts-pie" tabindex="0"><g class="recharts-layer"><g class="recharts-layer recharts-pie-sector" tabindex="-1"><path cx="238" cy="122" name="critical" stroke="#fff" fill="#A32D2D" tabindex="-1" class="recharts-sector" d="M 323,122
+    A 85,85,0,
+    0,0,
+    286.4336848883726,52.148885705854156
+  L 269.33944316306463,76.80222016261152
+            A 55,55,0,
+            0,1,
+            293,122 Z" role="img"></path></g><g class="recharts-layer recharts-pie-sector" tabindex="-1"><path cx="238" cy="122" name="high" stroke="#fff" fill="#BA7517" tabindex="-1" class="recharts-sector" d="M 283.9664116631984,50.50112589131648
+    A 85,85,0,
+    0,0,
+    164.86078654677416,78.691161924574
+  L 190.67462658908917,93.97663418648906
+            A 55,55,0,
+            0,1,
+            267.7429722526578,75.73602263555773 Z" role="img"></path></g><g class="recharts-layer recharts-pie-sector" tabindex="-1"><path cx="238" cy="122" name="medium" stroke="#fff" fill="#185FA5" tabindex="-1" class="recharts-sector" d="M 163.393884327852,81.27006623729828
+    A 85,85,0,
+    0,0,
+    226.01566517972824,206.15091038673094
+  L 230.2454304104124,176.45058907376708
+            A 55,55,0,
+            0,1,
+            189.7254545650807,95.64533697707536 Z" role="img"></path></g><g class="recharts-layer recharts-pie-sector" tabindex="-1"><path cx="238" cy="122" name="low" stroke="#fff" fill="#5F5E5A" tabindex="-1" class="recharts-sector" d="M 228.959790132249,206.5178951793466
+    A 85,85,0,
+    0,0,
+    302.30374682369137,177.58802159129792
+  L 279.6083067682709,157.96871985319277
+            A 55,55,0,
+            0,1,
+            232.15045243851407,176.68804982193015 Z" role="img"></path></g><g class="recharts-layer recharts-pie-sector" tabindex="-1"><path cx="238" cy="122" name="info" stroke="#fff" fill="#888780" tabindex="-1" class="recharts-sector" d="M 304.20456869477954,175.30999047025068
+    A 85,85,0,
+    0,0,
+    322.94822029662316,124.96645721971257
+  L 292.9664954860503,123.91947231863755
+            A 55,55,0,
+            0,1,
+            280.8382503319162,156.49469971604455 Z" role="img"></path></g></g></g></svg><div class="recharts-legend-wrapper" style="position: absolute; width: 466px; height: 36px; left: 5px; bottom: 5px;"><ul class="recharts-default-legend" style="padding: 0px; margin: 0px; text-align: center;"><li class="recharts-legend-item legend-item-0" style="display: inline-block; margin-right: 10px;"><svg class="recharts-surface" width="14" height="14" viewBox="0 0 32 32" style="display: inline-block; vertical-align: middle; margin-right: 4px;"><title></title><desc></desc><path stroke="none" fill="#A32D2D" d="M0,4h32v24h-32z" class="recharts-legend-icon"></path></svg><span class="recharts-legend-item-text" style="color: rgb(163, 45, 45);"><span class="text-xs text-gray-600 capitalize">critical</span></span></li><li class="recharts-legend-item legend-item-1" style="display: inline-block; margin-right: 10px;"><svg class="recharts-surface" width="14" height="14" viewBox="0 0 32 32" style="display: inline-block; vertical-align: middle; margin-right: 4px;"><title></title><desc></desc><path stroke="none" fill="#BA7517" d="M0,4h32v24h-32z" class="recharts-legend-icon"></path></svg><span class="recharts-legend-item-text" style="color: rgb(186, 117, 23);"><span class="text-xs text-gray-600 capitalize">high</span></span></li><li class="recharts-legend-item legend-item-2" style="display: inline-block; margin-right: 10px;"><svg class="recharts-surface" width="14" height="14" viewBox="0 0 32 32" style="display: inline-block; vertical-align: middle; margin-right: 4px;"><title></title><desc></desc><path stroke="none" fill="#185FA5" d="M0,4h32v24h-32z" class="recharts-legend-icon"></path></svg><span class="recharts-legend-item-text" style="color: rgb(24, 95, 165);"><span class="text-xs text-gray-600 capitalize">medium</span></span></li><li class="recharts-legend-item legend-item-3" style="display: inline-block; margin-right: 10px;"><svg class="recharts-surface" width="14" height="14" viewBox="0 0 32 32" style="display: inline-block; vertical-align: middle; margin-right: 4px;"><title></title><desc></desc><path stroke="none" fill="#5F5E5A" d="M0,4h32v24h-32z" class="recharts-legend-icon"></path></svg><span class="recharts-legend-item-text" style="color: rgb(95, 94, 90);"><span class="text-xs text-gray-600 capitalize">low</span></span></li><li class="recharts-legend-item legend-item-4" style="display: inline-block; margin-right: 10px;"><svg class="recharts-surface" width="14" height="14" viewBox="0 0 32 32" style="display: inline-block; vertical-align: middle; margin-right: 4px;"><title></title><desc></desc><path stroke="none" fill="#888780" d="M0,4h32v24h-32z" class="recharts-legend-icon"></path></svg><span class="recharts-legend-item-text" style="color: rgb(136, 135, 128);"><span class="text-xs text-gray-600 capitalize">info</span></span></li></ul></div><div tabindex="-1" class="recharts-tooltip-wrapper recharts-tooltip-wrapper-right recharts-tooltip-wrapper-bottom" style="visibility: hidden; pointer-events: none; position: absolute; top: 0px; left: 0px; transform: translate(10px, 10px);"><div class="recharts-default-tooltip" style="margin: 0px; padding: 10px; background-color: rgb(255, 255, 255); border: 1px solid rgb(204, 204, 204); white-space: nowrap;"><p class="recharts-tooltip-label" style="margin: 0px;"></p></div></div></div></div></div></div><div class="mb-8"><p class="text-sm font-medium text-gray-700 mb-3">Cross-domain risk chains</p><div class="space-y-2"><div class="border border-gray-200 rounded-lg overflow-hidden"><button class="w-full flex items-center gap-3 px-4 py-3 text-left hover:bg-gray-50 transition"><span class="inline-flex items-center text-xs font-medium px-2 py-0.5 rounded-md border bg-red-50 text-red-800 border-red-200">critical</span><span class="text-sm font-medium text-gray-900">CHAIN-001</span><span class="text-sm text-gray-500 flex items-center gap-1"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-link2 w-3.5 h-3.5"><path d="M9 17H7A5 5 0 0 1 7 7h2"></path><path d="M15 7h2a5 5 0 1 1 0 10h-2"></path><line x1="8" x2="16" y1="12" y2="12"></line></svg>FW-003 + IAM-007</span><span class="ml-auto text-gray-400"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-chevron-down w-4 h-4"><path d="m6 9 6 6 6-6"></path></svg></span></button><div class="px-4 pb-3"><p class="text-sm text-gray-600">Internet-facing firewall rule (FW-003) combined with an unguarded owner-level service account (IAM-007) in prod-app-tier-1. A compromised workload reachable on port 8080 could exfiltrate all project resources without triggering PAM justification alerts.</p></div></div><div class="border border-gray-200 rounded-lg overflow-hidden"><button class="w-full flex items-center gap-3 px-4 py-3 text-left hover:bg-gray-50 transition"><span class="inline-flex items-center text-xs font-medium px-2 py-0.5 rounded-md border bg-amber-50 text-amber-800 border-amber-200">high</span><span class="text-sm font-medium text-gray-900">CHAIN-002</span><span class="text-sm text-gray-500 flex items-center gap-1"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-link2 w-3.5 h-3.5"><path d="M9 17H7A5 5 0 0 1 7 7h2"></path><path d="M15 7h2a5 5 0 1 1 0 10h-2"></path><line x1="8" x2="16" y1="12" y2="12"></line></svg>GKE-002 + SQL-001</span><span class="ml-auto text-gray-400"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-chevron-down w-4 h-4"><path d="m6 9 6 6 6-6"></path></svg></span></button><div class="px-4 pb-3"><p class="text-sm text-gray-600">GKE workload identity binding (GKE-002) grants a pod direct access to a Cloud SQL instance with public IP enabled (SQL-001). Any compromised pod in the cluster can reach the customer-records-db directly from the internet path.</p></div></div><div class="border border-gray-200 rounded-lg overflow-hidden"><button class="w-full flex items-center gap-3 px-4 py-3 text-left hover:bg-gray-50 transition"><span class="inline-flex items-center text-xs font-medium px-2 py-0.5 rounded-md border bg-blue-50 text-blue-800 border-blue-200">medium</span><span class="text-sm font-medium text-gray-900">CHAIN-003</span><span class="text-sm text-gray-500 flex items-center gap-1"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-link2 w-3.5 h-3.5"><path d="M9 17H7A5 5 0 0 1 7 7h2"></path><path d="M15 7h2a5 5 0 1 1 0 10h-2"></path><line x1="8" x2="16" y1="12" y2="12"></line></svg>GCS-002 + IAM-003</span><span class="ml-auto text-gray-400"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-chevron-down w-4 h-4"><path d="m6 9 6 6 6-6"></path></svg></span></button><div class="px-4 pb-3"><p class="text-sm text-gray-600">A publicly readable storage bucket (GCS-002) combined with a stale service account key (IAM-003) that still holds write access to the same bucket increases the risk of build artifact tampering.</p></div></div></div></div><div class="mb-8"><p class="text-sm font-medium text-gray-700 mb-3">Findings by category</p><div class="space-y-2"><div class="border border-gray-200 rounded-lg overflow-hidden"><button class="w-full flex items-center gap-3 px-4 py-3 text-left hover:bg-gray-50 transition"><span class="text-sm font-medium text-gray-900">Networking</span><span class="text-xs text-gray-400">7 findings</span><div class="flex gap-1.5 ml-1"><span class="text-xs px-1.5 rounded bg-red-50 text-red-800 border-red-200">1</span><span class="text-xs px-1.5 rounded bg-amber-50 text-amber-800 border-amber-200">2</span><span class="text-xs px-1.5 rounded bg-blue-50 text-blue-800 border-blue-200">2</span><span class="text-xs px-1.5 rounded bg-gray-50 text-gray-700 border-gray-200">1</span><span class="text-xs px-1.5 rounded bg-gray-50 text-gray-600 border-gray-200">1</span></div><span class="ml-auto text-gray-400"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-chevron-up w-4 h-4"><path d="m18 15-6-6-6 6"></path></svg></span></button><div class="bg-gray-50/40"><div class="border-t border-gray-100"><button class="w-full flex items-center gap-2 px-3 py-2 text-left hover:bg-gray-50/70 transition"><span class="text-sm text-gray-800">Firewall</span><span class="text-xs text-gray-400">4 findings</span><span class="text-xs text-gray-400">(1 critical, 1 high, 1 medium, 1 low)</span><span class="ml-auto text-gray-400"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-chevron-down w-3.5 h-3.5"><path d="m6 9 6 6 6-6"></path></svg></span></button></div><div class="border-t border-gray-100"><button class="w-full flex items-center gap-2 px-3 py-2 text-left hover:bg-gray-50/70 transition"><span class="text-sm text-gray-800">Networking</span><span class="text-xs text-gray-400">3 findings</span><span class="text-xs text-gray-400">(1 high, 1 medium, 1 info)</span><span class="ml-auto text-gray-400"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-chevron-down w-3.5 h-3.5"><path d="m6 9 6 6 6-6"></path></svg></span></button></div></div></div><div class="border border-gray-200 rounded-lg overflow-hidden"><button class="w-full flex items-center gap-3 px-4 py-3 text-left hover:bg-gray-50 transition"><span class="text-sm font-medium text-gray-900">Identity &amp; Governance</span><span class="text-xs text-gray-400">4 findings</span><div class="flex gap-1.5 ml-1"><span class="text-xs px-1.5 rounded bg-amber-50 text-amber-800 border-amber-200">2</span><span class="text-xs px-1.5 rounded bg-blue-50 text-blue-800 border-blue-200">1</span><span class="text-xs px-1.5 rounded bg-gray-50 text-gray-700 border-gray-200">1</span></div><span class="ml-auto text-gray-400"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-chevron-up w-4 h-4"><path d="m18 15-6-6-6 6"></path></svg></span></button><div class="bg-gray-50/40"><div class="border-t border-gray-100"><button class="w-full flex items-center gap-2 px-3 py-2 text-left hover:bg-gray-50/70 transition"><span class="text-sm text-gray-800">IAM</span><span class="text-xs text-gray-400">4 findings</span><span class="text-xs text-gray-400">(2 high, 1 medium, 1 low)</span><span class="ml-auto text-gray-400"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-chevron-down w-3.5 h-3.5"><path d="m6 9 6 6 6-6"></path></svg></span></button></div></div></div><div class="border border-gray-200 rounded-lg overflow-hidden"><button class="w-full flex items-center gap-3 px-4 py-3 text-left hover:bg-gray-50 transition"><span class="text-sm font-medium text-gray-900">Compute &amp; Containers</span><span class="text-xs text-gray-400">3 findings</span><div class="flex gap-1.5 ml-1"><span class="text-xs px-1.5 rounded bg-red-50 text-red-800 border-red-200">1</span><span class="text-xs px-1.5 rounded bg-blue-50 text-blue-800 border-blue-200">1</span><span class="text-xs px-1.5 rounded bg-gray-50 text-gray-700 border-gray-200">1</span></div><span class="ml-auto text-gray-400"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-chevron-up w-4 h-4"><path d="m18 15-6-6-6 6"></path></svg></span></button><div class="bg-gray-50/40"><div class="border-t border-gray-100"><button class="w-full flex items-center gap-2 px-3 py-2 text-left hover:bg-gray-50/70 transition"><span class="text-sm text-gray-800">GKE</span><span class="text-xs text-gray-400">3 findings</span><span class="text-xs text-gray-400">(1 critical, 1 medium, 1 low)</span><span class="ml-auto text-gray-400"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-chevron-down w-3.5 h-3.5"><path d="m6 9 6 6 6-6"></path></svg></span></button></div></div></div><div class="border border-gray-200 rounded-lg overflow-hidden"><button class="w-full flex items-center gap-3 px-4 py-3 text-left hover:bg-gray-50 transition"><span class="text-sm font-medium text-gray-900">Data, Storage &amp; Messaging</span><span class="text-xs text-gray-400">5 findings</span><div class="flex gap-1.5 ml-1"><span class="text-xs px-1.5 rounded bg-red-50 text-red-800 border-red-200">1</span><span class="text-xs px-1.5 rounded bg-amber-50 text-amber-800 border-amber-200">1</span><span class="text-xs px-1.5 rounded bg-blue-50 text-blue-800 border-blue-200">2</span><span class="text-xs px-1.5 rounded bg-gray-50 text-gray-600 border-gray-200">1</span></div><span class="ml-auto text-gray-400"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-chevron-up w-4 h-4"><path d="m18 15-6-6-6 6"></path></svg></span></button><div class="bg-gray-50/40"><div class="border-t border-gray-100"><button class="w-full flex items-center gap-2 px-3 py-2 text-left hover:bg-gray-50/70 transition"><span class="text-sm text-gray-800">Cloud SQL</span><span class="text-xs text-gray-400">3 findings</span><span class="text-xs text-gray-400">(1 high, 1 medium, 1 info)</span><span class="ml-auto text-gray-400"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-chevron-down w-3.5 h-3.5"><path d="m6 9 6 6 6-6"></path></svg></span></button></div><div class="border-t border-gray-100"><button class="w-full flex items-center gap-2 px-3 py-2 text-left hover:bg-gray-50/70 transition"><span class="text-sm text-gray-800">Storage</span><span class="text-xs text-gray-400">2 findings</span><span class="text-xs text-gray-400">(1 critical, 1 medium)</span><span class="ml-auto text-gray-400"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-chevron-down w-3.5 h-3.5"><path d="m6 9 6 6 6-6"></path></svg></span></button></div></div></div></div></div><div><p class="text-sm font-medium text-gray-700 mb-3">All findings</p><div><div class="flex flex-wrap gap-2 mb-3 items-center"><div class="relative"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-search w-3.5 h-3.5 text-gray-400 absolute left-2.5 top-2.5"><circle cx="11" cy="11" r="8"></circle><path d="m21 21-4.3-4.3"></path></svg><input type="text" placeholder="Search ID, resource, detail..." class="text-sm border border-gray-200 rounded-md pl-8 pr-2 py-1.5 bg-white w-56" value="" data-sharkid="__0"></div><select class="text-sm border border-gray-200 rounded-md px-2 py-1.5 bg-white" data-sharkid="__1"><option value="all">All domains</option><option value="cloud_sql">Cloud SQL</option><option value="firewall">Firewall</option><option value="gke">GKE</option><option value="iam">IAM</option><option value="networking">Networking</option><option value="storage">Storage</option></select><select class="text-sm border border-gray-200 rounded-md px-2 py-1.5 bg-white" data-sharkid="__2"><option value="all">All severities</option><option value="critical">critical</option><option value="high">high</option><option value="medium">medium</option><option value="low">low</option><option value="info">info</option></select><span class="text-sm text-gray-400 self-center ml-1">19 findings</span></div><div class="overflow-x-auto border border-gray-200 rounded-lg"><table class="w-full text-sm"><thead><tr class="bg-gray-50 text-left text-gray-500 text-xs"><th class="px-3 py-2 font-medium">ID</th><th class="px-3 py-2 font-medium">Domain</th><th class="px-3 py-2 font-medium">Severity</th><th class="px-3 py-2 font-medium">Resource</th><th class="px-3 py-2 font-medium">Detail</th></tr></thead><tbody><tr class="border-t border-gray-100"><td class="px-3 py-2 font-mono text-xs text-gray-700 whitespace-nowrap">GKE-002</td><td class="px-3 py-2 text-gray-700 whitespace-nowrap">GKE</td><td class="px-3 py-2"><span class="inline-flex items-center text-xs font-medium px-2 py-0.5 rounded-md border bg-red-50 text-red-800 border-red-200">critical</span></td><td class="px-3 py-2 font-mono text-xs text-gray-600 whitespace-nowrap max-w-[160px] truncate" title="cluster-prod-app/workload-identity">cluster-prod-app/workload-identity</td><td class="px-3 py-2 text-gray-600">Pod service account has direct IAM binding to Cloud SQL client role.</td></tr><tr class="border-t border-gray-100"><td class="px-3 py-2 font-mono text-xs text-gray-700 whitespace-nowrap">FW-002</td><td class="px-3 py-2 text-gray-700 whitespace-nowrap">Firewall</td><td class="px-3 py-2"><span class="inline-flex items-center text-xs font-medium px-2 py-0.5 rounded-md border bg-red-50 text-red-800 border-red-200">critical</span></td><td class="px-3 py-2 font-mono text-xs text-gray-600 whitespace-nowrap max-w-[160px] truncate" title="legacy-ssh-access">legacy-ssh-access</td><td class="px-3 py-2 text-gray-600">0.0.0.0/0 permitted on port 22.</td></tr><tr class="border-t border-gray-100"><td class="px-3 py-2 font-mono text-xs text-gray-700 whitespace-nowrap">GCS-001</td><td class="px-3 py-2 text-gray-700 whitespace-nowrap">Storage</td><td class="px-3 py-2"><span class="inline-flex items-center text-xs font-medium px-2 py-0.5 rounded-md border bg-red-50 text-red-800 border-red-200">critical</span></td><td class="px-3 py-2 font-mono text-xs text-gray-600 whitespace-nowrap max-w-[160px] truncate" title="customer-exports-bucket">customer-exports-bucket</td><td class="px-3 py-2 text-gray-600">Bucket has uniform bucket-level access disabled with legacy ACLs granting allAuthenticatedUsers read.</td></tr><tr class="border-t border-gray-100"><td class="px-3 py-2 font-mono text-xs text-gray-700 whitespace-nowrap">FW-003</td><td class="px-3 py-2 text-gray-700 whitespace-nowrap">Firewall</td><td class="px-3 py-2"><span class="inline-flex items-center text-xs font-medium px-2 py-0.5 rounded-md border bg-amber-50 text-amber-800 border-amber-200">high</span></td><td class="px-3 py-2 font-mono text-xs text-gray-600 whitespace-nowrap max-w-[160px] truncate" title="allow-app-ingress">allow-app-ingress</td><td class="px-3 py-2 text-gray-600">Ingress rule permits 0.0.0.0/0 on port 8080.</td></tr><tr class="border-t border-gray-100"><td class="px-3 py-2 font-mono text-xs text-gray-700 whitespace-nowrap">IAM-007</td><td class="px-3 py-2 text-gray-700 whitespace-nowrap">IAM</td><td class="px-3 py-2"><span class="inline-flex items-center text-xs font-medium px-2 py-0.5 rounded-md border bg-amber-50 text-amber-800 border-amber-200">high</span></td><td class="px-3 py-2 font-mono text-xs text-gray-600 whitespace-nowrap max-w-[160px] truncate" title="app-sa@prod-app-tier-1.iam.gserviceaccount.com">app-sa@prod-app-tier-1.iam.gserviceaccount.com</td><td class="px-3 py-2 text-gray-600">roles/editor binding with no PAM entitlement coverage.</td></tr><tr class="border-t border-gray-100"><td class="px-3 py-2 font-mono text-xs text-gray-700 whitespace-nowrap">SQL-001</td><td class="px-3 py-2 text-gray-700 whitespace-nowrap">Cloud SQL</td><td class="px-3 py-2"><span class="inline-flex items-center text-xs font-medium px-2 py-0.5 rounded-md border bg-amber-50 text-amber-800 border-amber-200">high</span></td><td class="px-3 py-2 font-mono text-xs text-gray-600 whitespace-nowrap max-w-[160px] truncate" title="customer-records-db">customer-records-db</td><td class="px-3 py-2 text-gray-600">Public IP enabled with authorized network 0.0.0.0/0.</td></tr><tr class="border-t border-gray-100"><td class="px-3 py-2 font-mono text-xs text-gray-700 whitespace-nowrap">NET-001</td><td class="px-3 py-2 text-gray-700 whitespace-nowrap">Networking</td><td class="px-3 py-2"><span class="inline-flex items-center text-xs font-medium px-2 py-0.5 rounded-md border bg-amber-50 text-amber-800 border-amber-200">high</span></td><td class="px-3 py-2 font-mono text-xs text-gray-600 whitespace-nowrap max-w-[160px] truncate" title="spoke-asia-south1">spoke-asia-south1</td><td class="px-3 py-2 text-gray-600">BGP session down on active production spoke.</td></tr><tr class="border-t border-gray-100"><td class="px-3 py-2 font-mono text-xs text-gray-700 whitespace-nowrap">IAM-001</td><td class="px-3 py-2 text-gray-700 whitespace-nowrap">IAM</td><td class="px-3 py-2"><span class="inline-flex items-center text-xs font-medium px-2 py-0.5 rounded-md border bg-amber-50 text-amber-800 border-amber-200">high</span></td><td class="px-3 py-2 font-mono text-xs text-gray-600 whitespace-nowrap max-w-[160px] truncate" title="data-pipeline-sa">data-pipeline-sa</td><td class="px-3 py-2 text-gray-600">roles/owner bound at project level.</td></tr><tr class="border-t border-gray-100"><td class="px-3 py-2 font-mono text-xs text-gray-700 whitespace-nowrap">GCS-002</td><td class="px-3 py-2 text-gray-700 whitespace-nowrap">Storage</td><td class="px-3 py-2"><span class="inline-flex items-center text-xs font-medium px-2 py-0.5 rounded-md border bg-blue-50 text-blue-800 border-blue-200">medium</span></td><td class="px-3 py-2 font-mono text-xs text-gray-600 whitespace-nowrap max-w-[160px] truncate" title="build-artifacts-bucket">build-artifacts-bucket</td><td class="px-3 py-2 text-gray-600">Bucket IAM policy grants allUsers objectViewer.</td></tr><tr class="border-t border-gray-100"><td class="px-3 py-2 font-mono text-xs text-gray-700 whitespace-nowrap">IAM-003</td><td class="px-3 py-2 text-gray-700 whitespace-nowrap">IAM</td><td class="px-3 py-2"><span class="inline-flex items-center text-xs font-medium px-2 py-0.5 rounded-md border bg-blue-50 text-blue-800 border-blue-200">medium</span></td><td class="px-3 py-2 font-mono text-xs text-gray-600 whitespace-nowrap max-w-[160px] truncate" title="ci-deploy-sa">ci-deploy-sa</td><td class="px-3 py-2 text-gray-600">User-managed key is 142 days old.</td></tr><tr class="border-t border-gray-100"><td class="px-3 py-2 font-mono text-xs text-gray-700 whitespace-nowrap">NET-002</td><td class="px-3 py-2 text-gray-700 whitespace-nowrap">Networking</td><td class="px-3 py-2"><span class="inline-flex items-center text-xs font-medium px-2 py-0.5 rounded-md border bg-blue-50 text-blue-800 border-blue-200">medium</span></td><td class="px-3 py-2 font-mono text-xs text-gray-600 whitespace-nowrap max-w-[160px] truncate" title="spoke-us-central1-b">spoke-us-central1-b</td><td class="px-3 py-2 text-gray-600">CIDR range overlaps with spoke-us-central1-a (10.4.0.0/16).</td></tr><tr class="border-t border-gray-100"><td class="px-3 py-2 font-mono text-xs text-gray-700 whitespace-nowrap">GKE-001</td><td class="px-3 py-2 text-gray-700 whitespace-nowrap">GKE</td><td class="px-3 py-2"><span class="inline-flex items-center text-xs font-medium px-2 py-0.5 rounded-md border bg-blue-50 text-blue-800 border-blue-200">medium</span></td><td class="px-3 py-2 font-mono text-xs text-gray-600 whitespace-nowrap max-w-[160px] truncate" title="cluster-prod-app">cluster-prod-app</td><td class="px-3 py-2 text-gray-600">Binary Authorization is not enabled.</td></tr><tr class="border-t border-gray-100"><td class="px-3 py-2 font-mono text-xs text-gray-700 whitespace-nowrap">SQL-002</td><td class="px-3 py-2 text-gray-700 whitespace-nowrap">Cloud SQL</td><td class="px-3 py-2"><span class="inline-flex items-center text-xs font-medium px-2 py-0.5 rounded-md border bg-blue-50 text-blue-800 border-blue-200">medium</span></td><td class="px-3 py-2 font-mono text-xs text-gray-600 whitespace-nowrap max-w-[160px] truncate" title="analytics-db">analytics-db</td><td class="px-3 py-2 text-gray-600">Automated backups retention is 1 day (below 7-day baseline).</td></tr><tr class="border-t border-gray-100"><td class="px-3 py-2 font-mono text-xs text-gray-700 whitespace-nowrap">FW-001</td><td class="px-3 py-2 text-gray-700 whitespace-nowrap">Firewall</td><td class="px-3 py-2"><span class="inline-flex items-center text-xs font-medium px-2 py-0.5 rounded-md border bg-blue-50 text-blue-800 border-blue-200">medium</span></td><td class="px-3 py-2 font-mono text-xs text-gray-600 whitespace-nowrap max-w-[160px] truncate" title="default-allow-internal">default-allow-internal</td><td class="px-3 py-2 text-gray-600">No explicit deny-all ingress rule below priority 65534.</td></tr><tr class="border-t border-gray-100"><td class="px-3 py-2 font-mono text-xs text-gray-700 whitespace-nowrap">IAM-002</td><td class="px-3 py-2 text-gray-700 whitespace-nowrap">IAM</td><td class="px-3 py-2"><span class="inline-flex items-center text-xs font-medium px-2 py-0.5 rounded-md border bg-gray-50 text-gray-700 border-gray-200">low</span></td><td class="px-3 py-2 font-mono text-xs text-gray-600 whitespace-nowrap max-w-[160px] truncate" title="network-admin-group">network-admin-group</td><td class="px-3 py-2 text-gray-600">Group has 14 members, 3 inactive in last 90 days.</td></tr><tr class="border-t border-gray-100"><td class="px-3 py-2 font-mono text-xs text-gray-700 whitespace-nowrap">GKE-003</td><td class="px-3 py-2 text-gray-700 whitespace-nowrap">GKE</td><td class="px-3 py-2"><span class="inline-flex items-center text-xs font-medium px-2 py-0.5 rounded-md border bg-gray-50 text-gray-700 border-gray-200">low</span></td><td class="px-3 py-2 font-mono text-xs text-gray-600 whitespace-nowrap max-w-[160px] truncate" title="cluster-data-pipeline">cluster-data-pipeline</td><td class="px-3 py-2 text-gray-600">Node auto-upgrade is disabled.</td></tr><tr class="border-t border-gray-100"><td class="px-3 py-2 font-mono text-xs text-gray-700 whitespace-nowrap">FW-004</td><td class="px-3 py-2 text-gray-700 whitespace-nowrap">Firewall</td><td class="px-3 py-2"><span class="inline-flex items-center text-xs font-medium px-2 py-0.5 rounded-md border bg-gray-50 text-gray-700 border-gray-200">low</span></td><td class="px-3 py-2 font-mono text-xs text-gray-600 whitespace-nowrap max-w-[160px] truncate" title="legacy-rdp-rule">legacy-rdp-rule</td><td class="px-3 py-2 text-gray-600">Disabled rule still present in ruleset (shadow rule).</td></tr><tr class="border-t border-gray-100"><td class="px-3 py-2 font-mono text-xs text-gray-700 whitespace-nowrap">NET-003</td><td class="px-3 py-2 text-gray-700 whitespace-nowrap">Networking</td><td class="px-3 py-2"><span class="inline-flex items-center text-xs font-medium px-2 py-0.5 rounded-md border bg-gray-50 text-gray-600 border-gray-200">info</span></td><td class="px-3 py-2 font-mono text-xs text-gray-600 whitespace-nowrap max-w-[160px] truncate" title="spoke-test-temp">spoke-test-temp</td><td class="px-3 py-2 text-gray-600">No traffic in last 30 days.</td></tr><tr class="border-t border-gray-100"><td class="px-3 py-2 font-mono text-xs text-gray-700 whitespace-nowrap">SQL-003</td><td class="px-3 py-2 text-gray-700 whitespace-nowrap">Cloud SQL</td><td class="px-3 py-2"><span class="inline-flex items-center text-xs font-medium px-2 py-0.5 rounded-md border bg-gray-50 text-gray-600 border-gray-200">info</span></td><td class="px-3 py-2 font-mono text-xs text-gray-600 whitespace-nowrap max-w-[160px] truncate" title="staging-db">staging-db</td><td class="px-3 py-2 text-gray-600">Instance has not been queried in 21 days.</td></tr></tbody></table></div></div></div></div></div>
+    <script type="module" src="./GCP Audit Dashboard_files/main.jsx"></script>
+  
+
+<span id="recharts_measurement_span" aria-hidden="true" style="position: absolute; top: -20000px; left: 0px; padding: 0px; margin: 0px; border-width: medium; border-style: none; border-color: currentcolor; border-image: initial; white-space: pre; font-size: 11px; letter-spacing: normal;">Networking</span></body><grammarly-desktop-integration data-grammarly-shadow-root="true" style="visibility: visible !important;"><template shadowrootmode="open"><style>
+      div.grammarly-desktop-integration {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        padding: 0;
+        margin: -1px;
+        overflow: hidden;
+        clip: rect(0, 0, 0, 0);
+        white-space: nowrap;
+        border: 0;
+        -moz-user-select: none;
+        -webkit-user-select: none;
+        -ms-user-select:none;
+        user-select:none;
+      }
+
+      div.grammarly-desktop-integration:before {
+        content: attr(data-content);
+      }
+    </style><div aria-label="grammarly-integration" role="group" tabindex="-1" class="grammarly-desktop-integration" data-content="{&quot;mode&quot;:&quot;full&quot;,&quot;isActive&quot;:true,&quot;isUserDisabled&quot;:false}"></div></template></grammarly-desktop-integration></html>
